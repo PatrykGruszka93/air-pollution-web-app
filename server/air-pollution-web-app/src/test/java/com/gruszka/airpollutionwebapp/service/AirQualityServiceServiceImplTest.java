@@ -18,7 +18,6 @@ import static org.junit.Assert.*;
 @SpringBootTest
 public class AirQualityServiceServiceImplTest {
 
-
     @Autowired
     AirQualityServiceServiceImpl airQualityServiceService;
 
