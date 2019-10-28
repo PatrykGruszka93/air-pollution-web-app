@@ -1,11 +1,11 @@
 package com.gruszka.airpollutionwebapp.gios.model;
 
-public class PollutionDataValue {
+public class PollutionDataValueGIOSModel {
 
     private String date;
     private double value;
 
-    public PollutionDataValue() {
+    public PollutionDataValueGIOSModel() {
     }
 
     public String getDate() {

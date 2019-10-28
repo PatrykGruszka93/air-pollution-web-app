@@ -1,11 +1,11 @@
 package com.gruszka.airpollutionwebapp.gios.model;
 
-public class PollutionData {
+public class PollutionDataGIOSModel {
 
     private String key;
-    private PollutionDataValue[] values;
+    private PollutionDataValueGIOSModel[] values;
 
-    public PollutionData() {
+    public PollutionDataGIOSModel() {
     }
 
     public String getKey() {
@@ -16,11 +16,11 @@ public class PollutionData {
         this.key = key;
     }
 
-    public PollutionDataValue[] getValues() {
+    public PollutionDataValueGIOSModel[] getValues() {
         return values;
     }
 
-    public void setValues(PollutionDataValue[] values) {
+    public void setValues(PollutionDataValueGIOSModel[] values) {
         this.values = values;
     }
 }

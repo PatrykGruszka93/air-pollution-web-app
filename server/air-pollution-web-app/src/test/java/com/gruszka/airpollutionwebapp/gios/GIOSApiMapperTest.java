@@ -1,9 +1,9 @@
 package com.gruszka.airpollutionwebapp.gios;
 
-import com.gruszka.airpollutionwebapp.gios.model.PollutionData;
-import com.gruszka.airpollutionwebapp.gios.model.PollutionDataValue;
-import com.gruszka.airpollutionwebapp.gios.model.Sensor;
-import com.gruszka.airpollutionwebapp.gios.model.Station;
+import com.gruszka.airpollutionwebapp.gios.model.PollutionDataGIOSModel;
+import com.gruszka.airpollutionwebapp.gios.model.PollutionDataValueGIOSModel;
+import com.gruszka.airpollutionwebapp.gios.model.SensorGIOSModel;
+import com.gruszka.airpollutionwebapp.gios.model.StationGIOSModel;
 import org.junit.Test;
 
 import java.util.List;
@@ -19,33 +19,33 @@ public class GIOSApiMapperTest {
     @Test
     public void shouldReturnStations(){
         GIOSApiMapper gios = new GIOSApiMapper();
-        List<Station> stations = gios.getAllStations();
+        List<StationGIOSModel> stationGIOSModels = gios.getAllStations();
 
-        assertNotNull(stations);
-        for(Station station : stations){
-            LOG.log(Level.INFO ,"Id: " + station.getId() + ", name: " + station.getStationName());
+        assertNotNull(stationGIOSModels);
+        for(StationGIOSModel stationGIOSModel : stationGIOSModels){
+            LOG.log(Level.INFO ,"Id: " + stationGIOSModel.getId() + ", name: " + stationGIOSModel.getStationName());
         }
     }
 
     @Test
     public void shouldReturnSensorsFromStation(){
         GIOSApiMapper gios = new GIOSApiMapper();
-        List<Sensor> sensors = gios.getSensorsFromStation(14);
+        List<SensorGIOSModel> sensorGIOSModels = gios.getSensorsFromStation(14);
 
-        assertNotNull(sensors);
-        for(Sensor sensor: sensors){
-            LOG.log(Level.INFO ,"Id: " + sensor.getId() + ", name: " + sensor.getParam().getParamName());
+        assertNotNull(sensorGIOSModels);
+        for(SensorGIOSModel sensorGIOSModel : sensorGIOSModels){
+            LOG.log(Level.INFO ,"Id: " + sensorGIOSModel.getId() + ", name: " + sensorGIOSModel.getParam().getParamName());
         }
     }
 
     @Test
     public void shouldReturnDataFromSensor(){
         GIOSApiMapper gios = new GIOSApiMapper();
-        PollutionData pollutionData = gios.getDataFromSensor(92);
+        PollutionDataGIOSModel pollutionDataGIOSModel = gios.getDataFromSensor(92);
 
-        assertNotNull(pollutionData);
-        LOG.log(Level.INFO ,"Id: " + pollutionData.getKey());
-        for(PollutionDataValue value : pollutionData.getValues()){
+        assertNotNull(pollutionDataGIOSModel);
+        LOG.log(Level.INFO ,"Id: " + pollutionDataGIOSModel.getKey());
+        for(PollutionDataValueGIOSModel value : pollutionDataGIOSModel.getValues()){
             LOG.log(Level.INFO, "Date: " + value.getDate() + ", value: " + value.getValue());
         }
     }

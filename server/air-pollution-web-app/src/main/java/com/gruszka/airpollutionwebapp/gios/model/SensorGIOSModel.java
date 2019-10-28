@@ -1,12 +1,12 @@
 package com.gruszka.airpollutionwebapp.gios.model;
 
-public class Sensor {
+public class SensorGIOSModel {
 
     private int id;
     private int stationId;
-    private Parameter param;
+    private ParameterGIOSModel param;
 
-    public Sensor() {
+    public SensorGIOSModel() {
     }
 
     public int getId() {
@@ -25,11 +25,11 @@ public class Sensor {
         this.stationId = stationId;
     }
 
-    public Parameter getParam() {
+    public ParameterGIOSModel getParam() {
         return param;
     }
 
-    public void setParam(Parameter parameter) {
+    public void setParam(ParameterGIOSModel parameter) {
         this.param = parameter;
     }
 }

@@ -1,16 +1,16 @@
 package com.gruszka.airpollutionwebapp.gios.model;
 
-public class Station {
+public class StationGIOSModel {
 
 
     private int id;
     private String stationName;
     private double gegrLat;
     private double gegrLon;
-    private City city;
+    private CityGIOSModel cityGIOSModel;
     private String addressStreet;
 
-    public Station() {
+    public StationGIOSModel() {
     }
 
     public int getId() {
@@ -45,12 +45,12 @@ public class Station {
         this.gegrLon = gegrLon;
     }
 
-    public City getCity() {
-        return city;
+    public CityGIOSModel getCity() {
+        return cityGIOSModel;
     }
 
-    public void setCity(City city) {
-        this.city = city;
+    public void setCity(CityGIOSModel cityGIOSModel) {
+        this.cityGIOSModel = cityGIOSModel;
     }
 
     public String getAddressStreet() {

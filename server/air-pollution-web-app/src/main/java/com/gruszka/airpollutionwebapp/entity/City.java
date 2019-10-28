@@ -1,12 +1,11 @@
 package com.gruszka.airpollutionwebapp.entity;
 
-
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name="service")
-public class AirQualityService {
+@Table(name = "city")
+public class City {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,10 +15,14 @@ public class AirQualityService {
     @Column(name = "name")
     private String name;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "service")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "commune_id")
+    private Commune commune;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "city")
     private List<Station> stations;
 
-    public AirQualityService() {
+    public City() {
     }
 
     public Integer getId() {
@@ -36,6 +39,14 @@ public class AirQualityService {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Commune getCommune() {
+        return commune;
+    }
+
+    public void setCommune(Commune commune) {
+        this.commune = commune;
     }
 
     public List<Station> getStations() {

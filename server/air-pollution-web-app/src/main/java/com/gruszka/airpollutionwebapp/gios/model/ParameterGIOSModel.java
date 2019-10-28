@@ -1,13 +1,13 @@
 package com.gruszka.airpollutionwebapp.gios.model;
 
-public class Parameter {
+public class ParameterGIOSModel {
 
     private int idParam;
     private String paramName;
     private String paramFormula;
     private String paramCode;
 
-    public Parameter() {
+    public ParameterGIOSModel() {
     }
 
     public int getIdParam() {

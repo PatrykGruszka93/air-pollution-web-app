@@ -1,12 +1,12 @@
 package com.gruszka.airpollutionwebapp.gios.model;
 
-public class City {
+public class CityGIOSModel {
 
     private int id;
     private String name;
-    private Commune commune;
+    private CommuneGIOSModel communeGIOSModel;
 
-    public City() {
+    public CityGIOSModel() {
     }
 
     public int getId() {
@@ -25,11 +25,11 @@ public class City {
         this.name = name;
     }
 
-    public Commune getCommune() {
-        return commune;
+    public CommuneGIOSModel getCommune() {
+        return communeGIOSModel;
     }
 
-    public void setCommune(Commune commune) {
-        this.commune = commune;
+    public void setCommune(CommuneGIOSModel communeGIOSModel) {
+        this.communeGIOSModel = communeGIOSModel;
     }
 }
