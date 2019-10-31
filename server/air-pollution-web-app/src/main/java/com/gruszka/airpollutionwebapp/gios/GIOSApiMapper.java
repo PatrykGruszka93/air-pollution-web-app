@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gruszka.airpollutionwebapp.gios.model.PollutionDataGIOSModel;
 import com.gruszka.airpollutionwebapp.gios.model.SensorGIOSModel;
 import com.gruszka.airpollutionwebapp.gios.model.StationGIOSModel;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -11,6 +12,7 @@ import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
 
+@Component
 public class GIOSApiMapper {
 
     private ObjectMapper mapper;

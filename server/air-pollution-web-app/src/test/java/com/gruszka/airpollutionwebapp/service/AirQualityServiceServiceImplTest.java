@@ -33,4 +33,12 @@ public class AirQualityServiceServiceImplTest {
         }
         assertNotNull(serviceList);
     }
+
+    @Test
+    public void shouldReturnInstanceOfGIOSService(){
+
+        AirQualityService service = airQualityServiceService.findByName("GIOS");
+        assertEquals("GIOS", service.getName());
+    }
+
 }

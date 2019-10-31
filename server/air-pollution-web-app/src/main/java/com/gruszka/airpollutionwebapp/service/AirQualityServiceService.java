@@ -6,6 +6,8 @@ import java.util.List;
 
 public interface AirQualityServiceService {
 
-    public List<AirQualityService> findAll();
+    List<AirQualityService> findAll();
+
+    AirQualityService findByName(String name);
 
 }

@@ -5,6 +5,9 @@ import com.gruszka.airpollutionwebapp.gios.model.PollutionDataValueGIOSModel;
 import com.gruszka.airpollutionwebapp.gios.model.SensorGIOSModel;
 import com.gruszka.airpollutionwebapp.gios.model.StationGIOSModel;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
 import java.util.logging.Level;
@@ -12,6 +15,8 @@ import java.util.logging.Logger;
 
 import static org.junit.Assert.*;
 
+@RunWith(SpringRunner.class)
+@SpringBootTest
 public class GIOSApiMapperTest {
 
     protected final Logger LOG = Logger.getLogger(getClass().getName());
@@ -22,6 +27,7 @@ public class GIOSApiMapperTest {
         List<StationGIOSModel> stationGIOSModels = gios.getAllStations();
 
         assertNotNull(stationGIOSModels);
+        LOG.info("There are: " + stationGIOSModels.size() + " stations");
         for(StationGIOSModel stationGIOSModel : stationGIOSModels){
             LOG.log(Level.INFO ,"Id: " + stationGIOSModel.getId() + ", name: " + stationGIOSModel.getStationName());
         }
