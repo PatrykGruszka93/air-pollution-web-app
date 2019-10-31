@@ -29,7 +29,20 @@ public class GIOSApiMapperTest {
         assertNotNull(stationGIOSModels);
         LOG.info("There are: " + stationGIOSModels.size() + " stations");
         for(StationGIOSModel stationGIOSModel : stationGIOSModels){
-            LOG.log(Level.INFO ,"Id: " + stationGIOSModel.getId() + ", name: " + stationGIOSModel.getStationName());
+            try{
+
+                LOG.log(Level.INFO,"-------- Id: " + stationGIOSModel.getId() + " --------");
+                LOG.log(Level.INFO,"Station name: " + stationGIOSModel.getStationName());
+                LOG.log(Level.INFO,"Gegr lat: " + stationGIOSModel.getGegrLat());
+                LOG.log(Level.INFO,"Gegr lon: " + stationGIOSModel.getGegrLon());
+                LOG.log(Level.INFO,"Street address: " + stationGIOSModel.getAddressStreet());
+                LOG.log(Level.INFO, "City: " + stationGIOSModel.getCity().getName());
+                LOG.log(Level.INFO, "Commune name: " + stationGIOSModel.getCity().getCommune().getCommuneName());
+                LOG.log(Level.INFO, "District name: " + stationGIOSModel.getCity().getCommune().getDistrictName());
+                LOG.log(Level.INFO, "Province name: " + stationGIOSModel.getCity().getCommune().getProvinceName());
+            } catch (NullPointerException e){
+                LOG.log(Level.WARNING, "Found null");
+            }
         }
     }
 

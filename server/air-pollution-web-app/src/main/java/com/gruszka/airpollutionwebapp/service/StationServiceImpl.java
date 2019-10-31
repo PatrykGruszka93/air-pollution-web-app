@@ -14,12 +14,12 @@ import java.util.Optional;
 public class StationServiceImpl implements StationService{
 
     private StationDao stationDao;
-    private GIOSModelAdapter GIOSModelAdapter;
+    private GIOSModelAdapter giosModelAdapter;
 
     @Autowired
     public StationServiceImpl(StationDao stationDao, GIOSModelAdapter GIOSModelAdapter) {
         this.stationDao = stationDao;
-        this.GIOSModelAdapter = GIOSModelAdapter;
+        this.giosModelAdapter = GIOSModelAdapter;
     }
 
     @Override
@@ -35,8 +35,8 @@ public class StationServiceImpl implements StationService{
             station.setId(tmpStation.getId());
         } catch (RuntimeException e){
             station.setId(-1);
-
-        } finally {
+        }
+        finally {
             stationDao.save(station);
         }
     }
@@ -46,7 +46,7 @@ public class StationServiceImpl implements StationService{
 
         Station station;
         for(StationGIOSModel stationModel: stations){
-            station = GIOSModelAdapter.getStation(stationModel);
+            station = giosModelAdapter.getStation(stationModel);
             save(station);
         }
     }
@@ -55,7 +55,7 @@ public class StationServiceImpl implements StationService{
     public Station findByStationName(String stationName) throws RuntimeException{
 
         Optional<Station> result = stationDao.findByStationName(stationName);
-        Station station = null;
+        Station station;
         if(result.isPresent()){
             station = result.get();
         }

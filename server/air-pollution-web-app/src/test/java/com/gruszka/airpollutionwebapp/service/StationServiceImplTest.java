@@ -18,16 +18,13 @@ import java.util.List;
 public class StationServiceImplTest {
 
     @Autowired
-    StationService stationService;
+    private StationService stationService;
 
     @Autowired
-    GIOSApiMapper giosApiMapper;
+    private GIOSApiMapper giosApiMapper;
 
     @Autowired
-    GIOSModelAdapter GIOSModelAdapter;
-
-    @Autowired
-    AirQualityServiceService airQualityServiceService;
+    private AirQualityServiceService airQualityServiceService;
 
     @Test
     public void shouldSaveOneStationInDB(){

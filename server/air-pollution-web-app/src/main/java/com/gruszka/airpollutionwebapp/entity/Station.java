@@ -13,6 +13,9 @@ public class Station {
     @Column(name = "id")
     private Integer id;
 
+    @Column(name = "id_api")
+    private Integer idApi;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="service_id")
     private AirQualityService service;
@@ -48,6 +51,14 @@ public class Station {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getIdApi() {
+        return idApi;
+    }
+
+    public void setIdApi(Integer idApi) {
+        this.idApi = idApi;
     }
 
     public AirQualityService getService() {

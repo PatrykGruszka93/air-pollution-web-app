@@ -2,11 +2,20 @@ package com.gruszka.airpollutionwebapp.gios.model;
 
 public class CommuneGIOSModel {
 
+    private int id;
     private String communeName;
     private String districtName;
     private String provinceName;
 
     public CommuneGIOSModel() {
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getCommuneName() {
