@@ -1,5 +1,6 @@
 package com.gruszka.airpollutionwebapp.service;
 
+import com.gruszka.airpollutionwebapp.entity.AirQualityService;
 import com.gruszka.airpollutionwebapp.entity.Station;
 import com.gruszka.airpollutionwebapp.gios.model.StationGIOSModel;
 
@@ -14,5 +15,9 @@ public interface StationService {
     void saveAll(List<StationGIOSModel> stations);
 
     Station findByStationName(String stationName);
+
+    Station findByIdApiAndService(int idApi, AirQualityService service);
+
+    List<Station> findAllByService(AirQualityService service);
 
 }

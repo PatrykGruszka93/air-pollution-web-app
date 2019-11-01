@@ -11,6 +11,9 @@ public class Sensor {
     @Column(name = "id")
     private Integer id;
 
+    @Column(name = "id_api")
+    private Integer idApi;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "station_id")
     private Station station;
@@ -31,6 +34,14 @@ public class Sensor {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getIdApi() {
+        return idApi;
+    }
+
+    public void setIdApi(Integer idApi) {
+        this.idApi = idApi;
     }
 
     public Station getStation() {

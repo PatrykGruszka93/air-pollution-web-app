@@ -1,15 +1,8 @@
 package com.gruszka.airpollutionwebapp.gios;
 
-import com.gruszka.airpollutionwebapp.entity.AirQualityService;
-import com.gruszka.airpollutionwebapp.entity.City;
-import com.gruszka.airpollutionwebapp.entity.Commune;
-import com.gruszka.airpollutionwebapp.entity.Station;
-import com.gruszka.airpollutionwebapp.gios.model.CityGIOSModel;
-import com.gruszka.airpollutionwebapp.gios.model.CommuneGIOSModel;
-import com.gruszka.airpollutionwebapp.gios.model.StationGIOSModel;
-import com.gruszka.airpollutionwebapp.service.AirQualityServiceService;
-import com.gruszka.airpollutionwebapp.service.CityService;
-import com.gruszka.airpollutionwebapp.service.CommuneService;
+import com.gruszka.airpollutionwebapp.entity.*;
+import com.gruszka.airpollutionwebapp.gios.model.*;
+import com.gruszka.airpollutionwebapp.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -19,7 +12,10 @@ public class GIOSModelAdapter {
     private AirQualityServiceService airQualityServiceService;
     private CityService cityService;
     private CommuneService communeService;
+    private StationService stationService;
+    private ParameterService parameterService;
 
+    public static final String SERVICE_NAME = "GIOS";
 
     public Station getStation(StationGIOSModel model){
 
@@ -27,7 +23,7 @@ public class GIOSModelAdapter {
 
         station.setId(model.getId());
         station.setIdApi(model.getId());
-        station.setService(airQualityServiceService.findByName("GIOS"));
+        station.setService(airQualityServiceService.findByName(SERVICE_NAME));
         station.setStationName(model.getStationName());
         station.setGegrLat(model.getGegrLat());
         station.setGegrLon(model.getGegrLon());
@@ -53,7 +49,6 @@ public class GIOSModelAdapter {
             city.setCommune(null);
         }
         return city;
-
     }
 
     public Commune getCommune(CommuneGIOSModel model) {
@@ -66,7 +61,30 @@ public class GIOSModelAdapter {
         commune.setProvinceName(model.getProvinceName());
 
         return commune;
+    }
 
+    public Sensor getSensor(SensorGIOSModel model){
+
+        Sensor sensor = new Sensor();
+
+        sensor.setId(model.getId());
+        sensor.setIdApi(model.getId());
+        sensor.setStation(stationService.findByIdApiAndService(model.getStationId(), airQualityServiceService.findByName("GIOS")));
+        sensor.setParameter(parameterService.findByParameterName(model.getParam().getParamName()));
+
+        return sensor;
+    }
+
+    public Parameter getParameter(ParameterGIOSModel parameterGIOSModel) {
+
+        Parameter parameter = new Parameter();
+
+        parameter.setId(parameter.getId());
+        parameter.setParameterName(parameterGIOSModel.getParamName());
+        parameter.setParameterFormula(parameterGIOSModel.getParamFormula());
+        parameter.setParameterCode(parameterGIOSModel.getParamCode());
+
+        return parameter;
     }
 
     @Autowired
@@ -82,5 +100,15 @@ public class GIOSModelAdapter {
     @Autowired
     public void setCommuneService(CommuneService communeService) {
         this.communeService = communeService;
+    }
+
+    @Autowired
+    public void setStationService(StationService stationService) {
+        this.stationService = stationService;
+    }
+
+    @Autowired
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
     }
 }

@@ -1,6 +1,7 @@
 package com.gruszka.airpollutionwebapp.service;
 
 import com.gruszka.airpollutionwebapp.dao.StationDao;
+import com.gruszka.airpollutionwebapp.entity.AirQualityService;
 import com.gruszka.airpollutionwebapp.entity.Station;
 import com.gruszka.airpollutionwebapp.gios.GIOSModelAdapter;
 import com.gruszka.airpollutionwebapp.gios.model.StationGIOSModel;
@@ -63,6 +64,25 @@ public class StationServiceImpl implements StationService{
             throw new RuntimeException("Did not find Station: " + stationName);
         }
         return station;
+    }
+
+    @Override
+    public Station findByIdApiAndService(int idApi, AirQualityService service) {
+
+        Optional<Station> result = stationDao.findByIdApiAndService(idApi, service);
+        Station station;
+
+        if(result.isPresent()){
+            station = result.get();
+        } else {
+            throw new RuntimeException("Did not find Station: " + idApi);
+        }
+        return station;
+    }
+
+    @Override
+    public List<Station> findAllByService(AirQualityService service) {
+        return stationDao.findAllByService(service);
     }
 
 }

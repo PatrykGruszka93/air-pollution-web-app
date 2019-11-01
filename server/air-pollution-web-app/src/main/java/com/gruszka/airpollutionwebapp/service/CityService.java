@@ -4,7 +4,6 @@ import com.gruszka.airpollutionwebapp.entity.City;
 import com.gruszka.airpollutionwebapp.gios.model.CityGIOSModel;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface CityService {
 

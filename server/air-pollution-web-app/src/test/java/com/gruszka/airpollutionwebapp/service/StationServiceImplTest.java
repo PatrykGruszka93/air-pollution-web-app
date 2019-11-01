@@ -1,5 +1,6 @@
 package com.gruszka.airpollutionwebapp.service;
 
+import com.gruszka.airpollutionwebapp.entity.AirQualityService;
 import com.gruszka.airpollutionwebapp.entity.Station;
 import com.gruszka.airpollutionwebapp.gios.GIOSApiMapper;
 import com.gruszka.airpollutionwebapp.gios.GIOSModelAdapter;
@@ -10,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-
+import static org.junit.Assert.*;
 import java.util.List;
 
 @RunWith(SpringRunner.class)
@@ -46,6 +47,18 @@ public class StationServiceImplTest {
         List<StationGIOSModel> stationList = giosApiMapper.getAllStations();
 
         stationService.saveAll(stationList);
+    }
+
+    @Test
+    public void shouldFindStationByItsIdApiAndService(){
+
+        Integer ipApi = 117;
+        String stationName = "Wrocław - Korzeniowskiego";
+        AirQualityService service = airQualityServiceService.findByName("GIOS");
+
+        Station station = stationService.findByIdApiAndService(ipApi, service);
+        assertEquals(ipApi, station.getIdApi());
+        assertEquals(stationName,station.getStationName());
     }
 
 }
