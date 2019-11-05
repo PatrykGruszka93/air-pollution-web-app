@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Logger;
 
 @Service
 public class CommuneServiceImpl implements CommuneService{
@@ -16,6 +17,7 @@ public class CommuneServiceImpl implements CommuneService{
     private CommuneDao communeDao;
     private GIOSModelAdapter giosModelAdapter;
 
+    protected final Logger LOG = Logger.getLogger(getClass().getName());
 
     @Autowired
     public CommuneServiceImpl(CommuneDao communeDao, GIOSModelAdapter giosModelAdapter) {
@@ -47,6 +49,8 @@ public class CommuneServiceImpl implements CommuneService{
             commune.setId(-1);
         } finally {
             communeDao.save(commune);
+            LOG.info("Commune saved/updated: " + commune.getCommuneName() + " : " + commune.getProvinceName() +
+            " : " + commune.getDistrictName());
         }
     }
 

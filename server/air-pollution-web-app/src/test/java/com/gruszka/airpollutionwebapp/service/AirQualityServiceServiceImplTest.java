@@ -19,7 +19,7 @@ import static org.junit.Assert.*;
 public class AirQualityServiceServiceImplTest {
 
     @Autowired
-    AirQualityServiceServiceImpl airQualityServiceService;
+    private AirQualityServiceServiceImpl airQualityServiceService;
 
     protected final Logger LOG = Logger.getLogger(getClass().getName());
 

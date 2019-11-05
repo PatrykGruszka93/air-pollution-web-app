@@ -20,7 +20,7 @@ import static org.junit.Assert.*;
 public class CityServiceImplTest {
 
     @Autowired
-    CityService cityService;
+    private CityService cityService;
 
     @Autowired
     private GIOSApiMapper giosApiMapper;

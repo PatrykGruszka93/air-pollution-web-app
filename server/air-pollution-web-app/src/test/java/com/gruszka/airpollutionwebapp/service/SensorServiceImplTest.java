@@ -19,16 +19,16 @@ public class SensorServiceImplTest {
 
 
     @Autowired
-    SensorService sensorService;
+    private SensorService sensorService;
 
     @Autowired
-    StationService stationService;
+    private StationService stationService;
 
     @Autowired
-    AirQualityServiceService airQualityServiceService;
+    private AirQualityServiceService airQualityServiceService;
 
     @Autowired
-    GIOSApiMapper giosApiMapper;
+    private GIOSApiMapper giosApiMapper;
 
 
     @Test

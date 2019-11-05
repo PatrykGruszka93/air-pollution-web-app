@@ -1,6 +1,7 @@
 package com.gruszka.airpollutionwebapp.entity;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name="sensor")
@@ -22,8 +23,8 @@ public class Sensor {
     @JoinColumn(name = "parameter_id")
     private Parameter parameter;
 
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "sensor")
-    private PollutionData pollutionData;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "sensor")
+    private List<PollutionData> pollutionData;
 
     public Sensor() {
     }
@@ -60,11 +61,11 @@ public class Sensor {
         this.parameter = parameter;
     }
 
-    public PollutionData getPollutionData() {
+    public List<PollutionData> getPollutionData() {
         return pollutionData;
     }
 
-    public void setPollutionData(PollutionData pollutionData) {
+    public void setPollutionData(List<PollutionData> pollutionData) {
         this.pollutionData = pollutionData;
     }
 }

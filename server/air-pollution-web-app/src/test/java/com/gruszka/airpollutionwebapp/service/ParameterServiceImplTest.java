@@ -21,10 +21,10 @@ import static org.junit.Assert.*;
 public class ParameterServiceImplTest {
 
     @Autowired
-    ParameterService parameterService;
+    private ParameterService parameterService;
 
     @Autowired
-    GIOSApiMapper giosApiMapper;
+    private GIOSApiMapper giosApiMapper;
 
     protected final Logger LOG = Logger.getLogger(getClass().getName());
 

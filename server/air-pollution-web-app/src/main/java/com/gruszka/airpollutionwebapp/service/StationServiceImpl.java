@@ -10,12 +10,15 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Logger;
 
 @Service
 public class StationServiceImpl implements StationService{
 
     private StationDao stationDao;
     private GIOSModelAdapter giosModelAdapter;
+
+    protected final Logger LOG = Logger.getLogger(getClass().getName());
 
     @Autowired
     public StationServiceImpl(StationDao stationDao, GIOSModelAdapter GIOSModelAdapter) {
@@ -39,6 +42,7 @@ public class StationServiceImpl implements StationService{
         }
         finally {
             stationDao.save(station);
+            LOG.info("Station saved/updated: " + station.getStationName());
         }
     }
 

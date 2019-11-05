@@ -1,10 +1,11 @@
 package com.gruszka.airpollutionwebapp.entity;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name="pollution_data")
+@Table(name="data_value")
 public class PollutionData {
 
     @Id
@@ -12,16 +13,19 @@ public class PollutionData {
     @Column(name = "id")
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "sensor_id", referencedColumnName = "id")
+    @Column(name = "date")
+    private Date date;
+
+    @Column(name = "value")
+    private Double value;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "sensor_id")
     private Sensor sensor;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "sensor_parameter_id", referencedColumnName = "id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "sensor_parameter_id")
     private Parameter parameter;
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "pollutionData")
-    private List<PollutionDataValue> pollutionDataValue;
 
     public PollutionData() {
     }
@@ -32,6 +36,22 @@ public class PollutionData {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public Double getValue() {
+        return value;
+    }
+
+    public void setValue(Double value) {
+        this.value = value;
     }
 
     public Sensor getSensor() {
@@ -50,11 +70,5 @@ public class PollutionData {
         this.parameter = parameter;
     }
 
-    public List<PollutionDataValue> getPollutionDataValue() {
-        return pollutionDataValue;
-    }
-
-    public void setPollutionDataValue(List<PollutionDataValue> pollutionDataValue) {
-        this.pollutionDataValue = pollutionDataValue;
-    }
 }
+

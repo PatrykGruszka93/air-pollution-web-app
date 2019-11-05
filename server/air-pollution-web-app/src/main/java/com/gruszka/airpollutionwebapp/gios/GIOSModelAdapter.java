@@ -6,6 +6,11 @@ import com.gruszka.airpollutionwebapp.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 @Component
 public class GIOSModelAdapter {
 
@@ -15,7 +20,7 @@ public class GIOSModelAdapter {
     private StationService stationService;
     private ParameterService parameterService;
 
-    public static final String SERVICE_NAME = "GIOS";
+    private static final String SERVICE_NAME = "GIOS";
 
     public Station getStation(StationGIOSModel model){
 
@@ -86,6 +91,35 @@ public class GIOSModelAdapter {
 
         return parameter;
     }
+
+    public PollutionData getPollutionData(PollutionDataValueGIOSModel valueModel, Sensor sensor){
+
+        PollutionData pollutionData = new PollutionData();
+        String datePattern = "yyyy-MM-dd HH:mm:ss";
+        pollutionData.setId(-1L);
+        try {
+            String strDate = valueModel.getDate();
+            pollutionData.setDate(parseDate(strDate, datePattern));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        pollutionData.setValue(valueModel.getValue());
+        pollutionData.setSensor(sensor);
+        pollutionData.setParameter(sensor.getParameter());
+
+        return pollutionData;
+    }
+
+    private Date parseDate(String strDate, String pattern) throws ParseException {
+
+        DateFormat sdf = new SimpleDateFormat(pattern);
+        Date date;
+        date = sdf.parse(strDate);
+
+        return date;
+    }
+
 
     @Autowired
     public void setAirQualityServiceService(AirQualityServiceService airQualityServiceService) {

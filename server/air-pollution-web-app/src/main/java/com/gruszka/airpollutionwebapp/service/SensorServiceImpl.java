@@ -9,12 +9,15 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Logger;
 
 @Service
 public class SensorServiceImpl implements SensorService {
 
     private SensorDao sensorDao;
     private GIOSModelAdapter giosModelAdapter;
+
+    protected final Logger LOG = Logger.getLogger(getClass().getName());
 
     public SensorServiceImpl(SensorDao sensorDao, GIOSModelAdapter giosModelAdapter) {
         this.sensorDao = sensorDao;
@@ -33,6 +36,8 @@ public class SensorServiceImpl implements SensorService {
         }
         finally {
             sensorDao.save(sensor);
+            LOG.info("Sensor saved/updated: " + sensor.getIdApi());
+
         }
 
     }
@@ -60,5 +65,17 @@ public class SensorServiceImpl implements SensorService {
         }
 
         return sensor;
+    }
+
+    @Override
+    public List<Sensor> findAllByStation(Station station) {
+
+        List<Sensor> sensors = sensorDao.findAllByStation(station);
+
+        if(sensors.isEmpty()){
+            throw new RuntimeException("Did not find sensors from " + station.getStationName() + " station");
+        } else {
+            return sensors;
+        }
     }
 }

@@ -1,6 +1,7 @@
 package com.gruszka.airpollutionwebapp.service;
 
 import com.gruszka.airpollutionwebapp.entity.AirQualityService;
+import com.gruszka.airpollutionwebapp.entity.Sensor;
 import com.gruszka.airpollutionwebapp.entity.Station;
 import com.gruszka.airpollutionwebapp.gios.GIOSApiMapper;
 import com.gruszka.airpollutionwebapp.gios.GIOSModelAdapter;
@@ -13,6 +14,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.junit.Assert.*;
 import java.util.List;
+import java.util.logging.Logger;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -26,6 +28,8 @@ public class StationServiceImplTest {
 
     @Autowired
     private AirQualityServiceService airQualityServiceService;
+
+    protected final Logger LOG = Logger.getLogger(getClass().getName());
 
     @Test
     public void shouldSaveOneStationInDB(){
@@ -59,6 +63,17 @@ public class StationServiceImplTest {
         Station station = stationService.findByIdApiAndService(ipApi, service);
         assertEquals(ipApi, station.getIdApi());
         assertEquals(stationName,station.getStationName());
+    }
+
+    @Test
+    public void shouldFindAllStationFromGIOSService(){
+
+        List<Station> stations = stationService.findAllByService(airQualityServiceService.findByName("GIOS"));
+
+        for(Station station : stations){
+            LOG.info("Station: " + station.getStationName() + ", id: " + station.getId());
+        }
+
     }
 
 }

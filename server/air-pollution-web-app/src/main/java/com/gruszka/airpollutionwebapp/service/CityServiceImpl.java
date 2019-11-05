@@ -9,12 +9,15 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Logger;
 
 @Service
 public class CityServiceImpl implements CityService{
 
     private CityDao cityDao;
     private GIOSModelAdapter giosModelAdapter;
+
+    protected final Logger LOG = Logger.getLogger(getClass().getName());
 
     @Autowired
     public CityServiceImpl(CityDao cityDao, GIOSModelAdapter giosModelAdapter) {
@@ -28,6 +31,7 @@ public class CityServiceImpl implements CityService{
 
         city = giosModelAdapter.getCity(cityGIOSModel);
         save(city);
+        LOG.info("City saved/updated: " + city.getName());
     }
 
     @Override
