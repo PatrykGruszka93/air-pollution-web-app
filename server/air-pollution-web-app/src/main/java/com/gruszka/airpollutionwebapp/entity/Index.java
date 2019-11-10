@@ -1,9 +1,10 @@
 package com.gruszka.airpollutionwebapp.entity;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
-@Table(name="index")
+@Table(name="index_const")
 public class Index {
 
     @Id
@@ -13,6 +14,12 @@ public class Index {
 
     @Column(name = "index_level_name")
     private String name;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "index")
+    private List<PollutionData> pollutionDataList;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "index")
+    private List<AirQualityIndex> airQualityIndices;
 
     public Index() {
     }
@@ -31,5 +38,21 @@ public class Index {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<PollutionData> getPollutionDataList() {
+        return pollutionDataList;
+    }
+
+    public void setPollutionDataList(List<PollutionData> pollutionDataList) {
+        this.pollutionDataList = pollutionDataList;
+    }
+
+    public List<AirQualityIndex> getAirQualityIndices() {
+        return airQualityIndices;
+    }
+
+    public void setAirQualityIndices(List<AirQualityIndex> airQualityIndices) {
+        this.airQualityIndices = airQualityIndices;
     }
 }

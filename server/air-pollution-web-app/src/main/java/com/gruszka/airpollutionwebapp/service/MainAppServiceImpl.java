@@ -8,8 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @Service
@@ -108,15 +111,24 @@ public class MainAppServiceImpl implements MainAppService {
         LOG.info("Saving pollution data from GIOS");
         List<Station> stations = stationService.findAllByService(airQualityServiceService.findByName("GIOS"));
         List<Sensor> sensors;
+        List<Sensor> failedSensors = new ArrayList<>();
         for(Station station : stations){
             LOG.info("------> Getting data from station: id: " + station.getId() + ", idApi: " + station.getIdApi());
             sensors = sensorService.findAllByStation(station);
             for(Sensor sensor : sensors){
                 LOG.info("------> Getting data from sensor: id: " + sensor.getId() + ", idApi: " + sensor.getIdApi());
-                PollutionDataGIOSModel pollutionDataModel = giosApiMapper.getDataFromSensor(sensor.getIdApi());
+                PollutionDataGIOSModel pollutionDataModel;
+                try {
+                    pollutionDataModel = giosApiMapper.getDataFromSensor(sensor.getIdApi());
+                } catch (IOException e) {
+                    failedSensors.add(sensor);
+                    continue;
+                }
                 pollutionDataService.saveAll(pollutionDataModel, sensor);
             }
         }
+        for(Sensor failedSensor : failedSensors){
+            LOG.log(Level.INFO, "Failed to get data from (Api Id): " + failedSensor.getIdApi());
+        }
     }
-
 }

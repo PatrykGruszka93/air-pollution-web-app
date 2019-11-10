@@ -2,6 +2,7 @@ package com.gruszka.airpollutionwebapp.service;
 
 import com.gruszka.airpollutionwebapp.dao.ParameterDao;
 import com.gruszka.airpollutionwebapp.entity.Parameter;
+import com.gruszka.airpollutionwebapp.entity.Sensor;
 import com.gruszka.airpollutionwebapp.gios.GIOSModelAdapter;
 import com.gruszka.airpollutionwebapp.gios.model.ParameterGIOSModel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,4 +61,5 @@ public class ParameterServiceImpl implements ParameterService{
 
         return parameter;
     }
+
 }

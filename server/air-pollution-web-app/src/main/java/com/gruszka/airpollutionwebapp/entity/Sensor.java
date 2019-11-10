@@ -19,7 +19,7 @@ public class Sensor {
     @JoinColumn(name = "station_id")
     private Station station;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "parameter_id")
     private Parameter parameter;
 

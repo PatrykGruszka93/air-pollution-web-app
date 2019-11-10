@@ -9,6 +9,7 @@ import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -60,7 +61,12 @@ public class GIOSApiMapperTest {
     @Test
     public void shouldReturnDataFromSensor(){
         GIOSApiMapper gios = new GIOSApiMapper();
-        PollutionDataGIOSModel pollutionDataGIOSModel = gios.getDataFromSensor(92);
+        PollutionDataGIOSModel pollutionDataGIOSModel = null;
+        try {
+            pollutionDataGIOSModel = gios.getDataFromSensor(92);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         assertNotNull(pollutionDataGIOSModel);
         LOG.log(Level.INFO ,"Id: " + pollutionDataGIOSModel.getKey());

@@ -1,6 +1,7 @@
 package com.gruszka.airpollutionwebapp.service;
 
 import com.gruszka.airpollutionwebapp.dao.SensorDao;
+import com.gruszka.airpollutionwebapp.entity.Parameter;
 import com.gruszka.airpollutionwebapp.entity.Sensor;
 import com.gruszka.airpollutionwebapp.entity.Station;
 import com.gruszka.airpollutionwebapp.gios.GIOSModelAdapter;
@@ -77,5 +78,19 @@ public class SensorServiceImpl implements SensorService {
         } else {
             return sensors;
         }
+    }
+
+    @Override
+    public Parameter findParameterBySensorId(Integer id) {
+        Optional<Parameter> result = sensorDao.findParameterBySensorId(id);
+        Parameter parameter;
+
+        if(result.isPresent()){
+            parameter = result.get();
+        } else {
+            throw new RuntimeException("Did not find Parameter from Sensor id: " + id);
+        }
+
+        return parameter;
     }
 }

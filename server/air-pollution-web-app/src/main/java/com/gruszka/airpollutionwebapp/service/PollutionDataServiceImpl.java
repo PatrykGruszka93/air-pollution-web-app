@@ -18,14 +18,29 @@ import java.util.logging.Logger;
 public class PollutionDataServiceImpl implements PollutionDataService {
 
     private PollutionDataDao pollutionDataDao;
+    private IndexService indexService;
     private GIOSModelAdapter giosModelAdapter;
+    private SensorService sensorService;
 
     protected final Logger LOG = Logger.getLogger(getClass().getName());
 
     @Autowired
-    public PollutionDataServiceImpl(PollutionDataDao pollutionDataDao, GIOSModelAdapter giosModelAdapter) {
+    public PollutionDataServiceImpl(PollutionDataDao pollutionDataDao, IndexService indexService, GIOSModelAdapter giosModelAdapter,
+                                    SensorService sensorService) {
         this.pollutionDataDao = pollutionDataDao;
+        this.indexService = indexService;
         this.giosModelAdapter = giosModelAdapter;
+        this.sensorService = sensorService;
+    }
+
+    @Override
+    public void saveAll(PollutionDataGIOSModel pollutionDataModel, Sensor sensor) {
+        PollutionData pollutionData;
+
+        for(PollutionDataValueGIOSModel pollutionDataValue : pollutionDataModel.getValues()){
+            pollutionData = giosModelAdapter.getPollutionData(pollutionDataValue, sensor);
+            save(pollutionData);
+        }
     }
 
     @Override
@@ -39,25 +54,16 @@ public class PollutionDataServiceImpl implements PollutionDataService {
         }catch (RuntimeException e){
             pollutionData.setId(-1L);
         }finally {
+            pollutionData.setPercentValue(calculatePercentValue(pollutionData));
+            pollutionData.setIndex(indexService.choosePollutionIndexByItsValue(pollutionData));
             pollutionDataDao.save(pollutionData);
-            LOG.info("Pollution data saved/updated: " + pollutionData.getDate() + " : " + pollutionData.getValue());
+            LOG.info("Pollution data saved/updated: " + pollutionData.getDate() + " : " + pollutionData.getValue() + " : "
+            + pollutionData.getPercentValue() + "% : " + pollutionData.getIndex().getName());
         }
     }
 
     @Override
-    public void saveAll(PollutionDataGIOSModel pollutionDataModel, Sensor sensor) {
-        PollutionData pollutionData;
-
-        for(PollutionDataValueGIOSModel pollutionDataValue : pollutionDataModel.getValues()){
-            pollutionData = giosModelAdapter.getPollutionData(pollutionDataValue, sensor);
-            save(pollutionData);
-
-        }
-
-    }
-
-    @Override
-    public PollutionData findByDateAndSensorAndParameter(Date date, Sensor sensor, Parameter parameter) {
+    public PollutionData findByDateAndSensorAndParameter(Date date, Sensor sensor, Parameter parameter) throws RuntimeException{
 
         Optional<PollutionData> result = pollutionDataDao.findByDateAndSensorAndParameter(date, sensor, parameter);
         PollutionData pollutionData;
@@ -69,4 +75,23 @@ public class PollutionDataServiceImpl implements PollutionDataService {
         }
         return pollutionData;
     }
+
+    private int calculatePercentValue(PollutionData pollutionData) throws RuntimeException{
+
+        Parameter parameter = pollutionData.getParameter();
+
+        final String PARAMETER_FORMULA = parameter.getParameterFormula();
+
+        switch(PARAMETER_FORMULA) {
+            case "SO2" : return pollutionData.getValue().intValue() * 100 / 350;
+            case "C6H6" : return pollutionData.getValue().intValue() * 100 / 5;
+            case "CO" : return pollutionData.getValue().intValue() * 100 / 10000 ;
+            case "NO2" : return pollutionData.getValue().intValue() * 100 / 200 ;
+            case "O3" : return pollutionData.getValue().intValue() * 100 / 120 ;
+            case "PM2.5" : return pollutionData.getValue().intValue() * 100 / 25 ;
+            case "PM10" : return pollutionData.getValue().intValue() * 100 / 50 ;
+            default : throw new RuntimeException("Wrong parameter formula");
+        }
+    }
+
 }

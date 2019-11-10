@@ -58,7 +58,7 @@ public class GIOSApiMapper {
         return sensorGIOSModels;
     }
 
-    public PollutionDataGIOSModel getDataFromSensor(int sensorId){
+    public PollutionDataGIOSModel getDataFromSensor(int sensorId) throws IOException{
         PollutionDataGIOSModel pollutionDataGIOSModel = null;
         String stringUrl = prepareUrl("http://api.gios.gov.pl/pjp-api/rest/data/getData/", sensorId);
         URLConnection urlConn ;
@@ -81,8 +81,6 @@ public class GIOSApiMapper {
 
             pollutionDataGIOSModel = mapper.readValue(br, PollutionDataGIOSModel.class);
 
-        } catch (IOException e) {
-            e.printStackTrace();
         }
         return pollutionDataGIOSModel;
     }

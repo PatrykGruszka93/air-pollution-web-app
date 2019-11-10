@@ -2,7 +2,6 @@ package com.gruszka.airpollutionwebapp.entity;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
 
 @Entity
 @Table(name="data_value")
@@ -19,6 +18,9 @@ public class PollutionData {
     @Column(name = "value")
     private Double value;
 
+    @Column(name = "percent_value")
+    private Integer percentValue;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sensor_id")
     private Sensor sensor;
@@ -26,6 +28,10 @@ public class PollutionData {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sensor_parameter_id")
     private Parameter parameter;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="index_id")
+    private Index index;
 
     public PollutionData() {
     }
@@ -54,6 +60,14 @@ public class PollutionData {
         this.value = value;
     }
 
+    public Integer getPercentValue() {
+        return percentValue;
+    }
+
+    public void setPercentValue(Integer percentValue) {
+        this.percentValue = percentValue;
+    }
+
     public Sensor getSensor() {
         return sensor;
     }
@@ -70,5 +84,12 @@ public class PollutionData {
         this.parameter = parameter;
     }
 
+    public Index getIndex() {
+        return index;
+    }
+
+    public void setIndex(Index index) {
+        this.index = index;
+    }
 }
 

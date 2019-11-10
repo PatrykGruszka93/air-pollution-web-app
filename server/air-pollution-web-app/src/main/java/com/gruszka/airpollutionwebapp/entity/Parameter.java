@@ -1,6 +1,7 @@
 package com.gruszka.airpollutionwebapp.entity;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name="parameter")
@@ -19,6 +20,9 @@ public class Parameter {
 
     @Column(name = "param_code")
     private String parameterCode;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "parameter")
+    private List<Sensor> sensors;
 
     public Parameter() {
     }
@@ -53,5 +57,13 @@ public class Parameter {
 
     public void setParameterCode(String parameterCode) {
         this.parameterCode = parameterCode;
+    }
+
+    public List<Sensor> getSensors() {
+        return sensors;
+    }
+
+    public void setSensors(List<Sensor> sensors) {
+        this.sensors = sensors;
     }
 }

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -30,40 +31,24 @@ public class PollutionDataServiceImplTest {
     private StationService stationService;
 
     @Autowired
-    private AirQualityServiceService airQualityServiceService;
-
-    @Autowired
     private GIOSApiMapper giosApiMapper;
 
     protected final Logger LOG = Logger.getLogger(getClass().getName());
 
     @Test
-    public void shouldPopulateDataFromGIOSApi(){
-
-        List<Station> stations = stationService.findAllByService(airQualityServiceService.findByName("GIOS"));
-
-        List<Sensor> sensors;
-        for(Station station : stations){
-            LOG.info("------> Getting data from station: id: " + station.getId() + ", idApi: " + station.getIdApi());
-            sensors = sensorService.findAllByStation(station);
-            for(Sensor sensor : sensors){
-                LOG.info("------> Getting data from sensor: id: " + sensor.getId() + ", idApi: " + sensor.getIdApi());
-                PollutionDataGIOSModel pollutionDataModel = giosApiMapper.getDataFromSensor(sensor.getIdApi());
-                pollutionDataService.saveAll(pollutionDataModel, sensor);
-            }
-
-        }
-
-    }
-
-    @Test
     public void shouldPopulateDataFromOnlyOneSensorFromGIOSApi(){
 
         Sensor sensor = sensorService.findByIdApiAndStation(225, stationService.findByStationName("Kłodzko - Szkolna"));
-        PollutionDataGIOSModel pollutionDataModel = giosApiMapper.getDataFromSensor(sensor.getIdApi());
+        PollutionDataGIOSModel pollutionDataModel = null;
+        try {
+            pollutionDataModel = giosApiMapper.getDataFromSensor(sensor.getIdApi());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         pollutionDataService.saveAll(pollutionDataModel, sensor);
-
     }
+
+
 
 
 

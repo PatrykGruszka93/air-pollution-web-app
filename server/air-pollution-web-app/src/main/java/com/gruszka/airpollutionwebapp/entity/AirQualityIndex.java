@@ -4,8 +4,8 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name="pollution_index_level")
-public class PollutionIndexLevel {
+@Table(name="air_quality_index")
+public class AirQualityIndex {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,18 +16,14 @@ public class PollutionIndexLevel {
     private Date calcDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="station_id")
+    @JoinColumn(name = "station_id")
     private Station station;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "index_id")
     private Index index;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "parameter_id")
-    private Parameter parameter;
-
-    public PollutionIndexLevel() {
+    public AirQualityIndex() {
     }
 
     public Integer getId() {
@@ -62,11 +58,4 @@ public class PollutionIndexLevel {
         this.index = index;
     }
 
-    public Parameter getParameter() {
-        return parameter;
-    }
-
-    public void setParameter(Parameter parameter) {
-        this.parameter = parameter;
-    }
 }

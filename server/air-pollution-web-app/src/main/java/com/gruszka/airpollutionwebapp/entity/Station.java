@@ -40,7 +40,7 @@ public class Station {
     private List<Sensor> sensors;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "station")
-    private List<PollutionIndexLevel> pollutionIndexLevels;
+    private List<AirQualityIndex> airQualityIndices;
 
     public Station() {
     }
@@ -117,11 +117,11 @@ public class Station {
         this.sensors = sensors;
     }
 
-    public List<PollutionIndexLevel> getPollutionIndexLevels() {
-        return pollutionIndexLevels;
+    public List<AirQualityIndex> getAirQualityIndices() {
+        return airQualityIndices;
     }
 
-    public void setPollutionIndexLevels(List<PollutionIndexLevel> pollutionIndexLevels) {
-        this.pollutionIndexLevels = pollutionIndexLevels;
+    public void setAirQualityIndices(List<AirQualityIndex> airQualityIndices) {
+        this.airQualityIndices = airQualityIndices;
     }
 }
