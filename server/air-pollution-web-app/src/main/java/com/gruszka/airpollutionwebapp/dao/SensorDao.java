@@ -13,6 +13,7 @@ import java.util.Optional;
 
 public interface SensorDao extends JpaRepository<Sensor, Long> {
 
+    List<Sensor> findAllByStationId(Integer id);
 
     Optional<Sensor> findByIdApiAndStation(int id, Station station);
 

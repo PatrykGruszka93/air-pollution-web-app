@@ -1,13 +1,17 @@
 package com.gruszka.airpollutionwebapp.service;
 
 import com.gruszka.airpollutionwebapp.dao.StationDao;
+import com.gruszka.airpollutionwebapp.entity.AirQualityIndex;
 import com.gruszka.airpollutionwebapp.entity.AirQualityService;
 import com.gruszka.airpollutionwebapp.entity.Station;
 import com.gruszka.airpollutionwebapp.gios.GIOSModelAdapter;
 import com.gruszka.airpollutionwebapp.gios.model.StationGIOSModel;
+import com.gruszka.airpollutionwebapp.rest.RestApiModelAdapter;
+import com.gruszka.airpollutionwebapp.rest.model.StationRestApiModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
@@ -16,14 +20,19 @@ import java.util.logging.Logger;
 public class StationServiceImpl implements StationService{
 
     private StationDao stationDao;
+    private AirQualityIndexService aqiService;
     private GIOSModelAdapter giosModelAdapter;
+    private RestApiModelAdapter restApiModelAdapter;
 
     protected final Logger LOG = Logger.getLogger(getClass().getName());
 
     @Autowired
-    public StationServiceImpl(StationDao stationDao, GIOSModelAdapter GIOSModelAdapter) {
+    public StationServiceImpl(StationDao stationDao, AirQualityIndexService aqiService,
+                              GIOSModelAdapter GIOSModelAdapter, RestApiModelAdapter restApiModelAdapter) {
         this.stationDao = stationDao;
+        this.aqiService = aqiService;
         this.giosModelAdapter = GIOSModelAdapter;
+        this.restApiModelAdapter = restApiModelAdapter;
     }
 
     @Override
@@ -87,6 +96,14 @@ public class StationServiceImpl implements StationService{
     @Override
     public List<Station> findAllByService(AirQualityService service) {
         return stationDao.findAllByService(service);
+    }
+
+    @Override
+    public List<Station> findStationsBasicDetailsByService(AirQualityService service) {
+
+        List<Station> stations = stationDao.findStationsBasicDetailsByService(service);
+
+        return stations;
     }
 
 }

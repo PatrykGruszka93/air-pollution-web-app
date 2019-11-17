@@ -12,11 +12,14 @@ public interface SensorService {
 
     void save(Sensor sensor);
 
-
     void saveAll(List<SensorGIOSModel> sensors);
+
+    List<Sensor> findAllByStationId(Integer id);
+
     Sensor findByIdApiAndStation(int idApi, Station station);
 
     List<Sensor> findAllByStation(Station station);
+
     Parameter findParameterBySensorId(Integer id);
 
 

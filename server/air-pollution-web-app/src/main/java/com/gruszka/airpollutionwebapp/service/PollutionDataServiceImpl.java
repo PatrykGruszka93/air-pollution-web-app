@@ -64,6 +64,24 @@ public class PollutionDataServiceImpl implements PollutionDataService {
         }
     }
 
+    private int calculatePercentValue(PollutionData pollutionData) throws RuntimeException{
+
+        Parameter parameter = pollutionData.getParameter();
+
+        final String PARAMETER_FORMULA = parameter.getParameterFormula();
+
+        switch(PARAMETER_FORMULA) {
+            case "SO2" : return pollutionData.getValue().intValue() * 100 / 350;
+            case "C6H6" : return pollutionData.getValue().intValue() * 100 / 5;
+            case "CO" : return pollutionData.getValue().intValue() * 100 / 10000 ;
+            case "NO2" : return pollutionData.getValue().intValue() * 100 / 200 ;
+            case "O3" : return pollutionData.getValue().intValue() * 100 / 120 ;
+            case "PM2.5" : return pollutionData.getValue().intValue() * 100 / 25 ;
+            case "PM10" : return pollutionData.getValue().intValue() * 100 / 50 ;
+            default : throw new RuntimeException("Wrong parameter formula");
+        }
+    }
+
     @Override
     public PollutionData findByDateAndSensorAndParameter(Date date, Sensor sensor, Parameter parameter) throws RuntimeException{
 
@@ -90,22 +108,17 @@ public class PollutionDataServiceImpl implements PollutionDataService {
 
     }
 
-    private int calculatePercentValue(PollutionData pollutionData) throws RuntimeException{
+    @Override
+    public PollutionData findMostRecentDataFromSensor(Sensor sensor) {
+        Optional<PollutionData> result = pollutionDataDao.findMostRecentDataFromSensor(sensor);
+        PollutionData pollutionData;
 
-        Parameter parameter = pollutionData.getParameter();
-
-        final String PARAMETER_FORMULA = parameter.getParameterFormula();
-
-        switch(PARAMETER_FORMULA) {
-            case "SO2" : return pollutionData.getValue().intValue() * 100 / 350;
-            case "C6H6" : return pollutionData.getValue().intValue() * 100 / 5;
-            case "CO" : return pollutionData.getValue().intValue() * 100 / 10000 ;
-            case "NO2" : return pollutionData.getValue().intValue() * 100 / 200 ;
-            case "O3" : return pollutionData.getValue().intValue() * 100 / 120 ;
-            case "PM2.5" : return pollutionData.getValue().intValue() * 100 / 25 ;
-            case "PM10" : return pollutionData.getValue().intValue() * 100 / 50 ;
-            default : throw new RuntimeException("Wrong parameter formula");
+        if(result.isPresent()){
+            pollutionData = result.get();
+        } else {
+            throw new RuntimeException("Did not find Data from Sensor: " + sensor.getId());
         }
+        return pollutionData;
     }
 
 }

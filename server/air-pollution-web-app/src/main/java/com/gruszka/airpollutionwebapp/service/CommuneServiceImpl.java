@@ -40,6 +40,11 @@ public class CommuneServiceImpl implements CommuneService{
     }
 
     @Override
+    public List<Commune> findAll() {
+        return communeDao.findAll();
+    }
+
+    @Override
     public void save(Commune commune) {
         Commune tmpCommune;
         try{

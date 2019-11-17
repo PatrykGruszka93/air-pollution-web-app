@@ -1,9 +1,6 @@
 package com.gruszka.airpollutionwebapp.dao;
 
-import com.gruszka.airpollutionwebapp.entity.Index;
-import com.gruszka.airpollutionwebapp.entity.Parameter;
-import com.gruszka.airpollutionwebapp.entity.PollutionData;
-import com.gruszka.airpollutionwebapp.entity.Sensor;
+import com.gruszka.airpollutionwebapp.entity.*;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -32,5 +29,17 @@ public interface PollutionDataDao extends JpaRepository<PollutionData, Long> {
         }
     }
 
+    @Query("SELECT p FROM PollutionData p WHERE p.sensor=(:sensor) AND p.value>0 ORDER BY p.date DESC")
+    List<PollutionData> findDataFromSensorOrderByDateDesc(@Param("sensor") Sensor sensor, Pageable pageable);
+
+    default Optional<PollutionData> findMostRecentDataFromSensor(Sensor sensor){
+        List<PollutionData> list = findDataFromSensorOrderByDateDesc(sensor, PageRequest.of(0,1));
+        if(list.isEmpty()){
+            return null;
+        }
+        else {
+            return Optional.of(list.get(0));
+        }
+    }
 
 }

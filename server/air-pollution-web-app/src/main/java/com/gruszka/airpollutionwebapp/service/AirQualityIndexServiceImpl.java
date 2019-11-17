@@ -72,4 +72,18 @@ public class AirQualityIndexServiceImpl implements AirQualityIndexService {
         }
         return airQualityIndex;
     }
+
+    @Override
+    public AirQualityIndex findMostCurrentIndexForStation(Station station) {
+        Optional<AirQualityIndex> result = airQualityIndexDao.findMostCurrentIndexForStation(station);
+        AirQualityIndex index;
+
+        if(result.isPresent()){
+            index = result.get();
+        } else {
+            throw new RuntimeException("Did not find most recent Air Quality Index by Station: " + station.getId());
+        }
+
+        return index;
+    }
 }

@@ -54,6 +54,13 @@ public class SensorServiceImpl implements SensorService {
     }
 
     @Override
+    public List<Sensor> findAllByStationId(Integer id) {
+
+        List<Sensor> sensors = sensorDao.findAllByStationId(id);
+        return sensors;
+    }
+
+    @Override
     public Sensor findByIdApiAndStation(int idApi, Station station) {
 
         Optional<Sensor> result = sensorDao.findByIdApiAndStation(idApi, station);

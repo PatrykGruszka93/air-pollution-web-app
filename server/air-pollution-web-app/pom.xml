@@ -51,12 +51,7 @@
 			<scope>runtime</scope>
 		</dependency>
 
-		<!-- Jackson for JSON Databind-->
-		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-databind</artifactId>
-			<version>${jackson.version}</version>
-		</dependency>
+
 
 
 		<!-- Testing -->

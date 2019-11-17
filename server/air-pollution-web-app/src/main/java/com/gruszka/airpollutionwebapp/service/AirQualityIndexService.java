@@ -11,7 +11,7 @@ public interface AirQualityIndexService {
     void save(AirQualityIndex airQualityIndex);
     AirQualityIndex findById(Long id);
     AirQualityIndex findByCalcDateAndStation(Date calcDate, Station station);
-
+    AirQualityIndex findMostCurrentIndexForStation(Station station);
 
     void saveIndexFromMostPollutedSensor(PollutionData mostPollutedSensor);
 }

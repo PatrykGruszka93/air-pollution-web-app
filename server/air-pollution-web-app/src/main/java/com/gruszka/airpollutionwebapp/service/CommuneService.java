@@ -9,6 +9,8 @@ public interface CommuneService {
 
     Commune findByCommuneName(String communeName);
 
+    List<Commune> findAll();
+
     void save(Commune commune);
 
     void save(CommuneGIOSModel communeGIOSModel);

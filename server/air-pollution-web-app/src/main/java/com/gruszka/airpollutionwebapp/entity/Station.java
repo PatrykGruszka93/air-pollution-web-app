@@ -1,45 +1,59 @@
 package com.gruszka.airpollutionwebapp.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Table(name="station")
+@JsonIgnoreProperties({"sensors", "airQualityIndices"})
 public class Station {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
+    @JsonProperty("id")
     private Integer id;
 
     @Column(name = "id_api")
+    @JsonProperty("id_api")
     private Integer idApi;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="service_id")
+    @JsonProperty("service")
     private AirQualityService service;
 
     @Column(name="station_name")
+    @JsonProperty("station_name")
     private String stationName;
 
     @Column(name="gegr_lat")
+    @JsonProperty("gegr_lat")
     private Double gegrLat;
 
     @Column(name = "gegr_lon")
+    @JsonProperty("gegr_lon")
     private Double gegrLon;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "city_id")
+    @JsonProperty("city")
     private City city;
 
     @Column(name = "street_address")
+    @JsonProperty("street_address")
     private String streetAddress;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "station")
+    @JsonProperty("sensors")
     private List<Sensor> sensors;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "station")
+    @JsonProperty("airQualityIndices")
     private List<AirQualityIndex> airQualityIndices;
 
     public Station() {
