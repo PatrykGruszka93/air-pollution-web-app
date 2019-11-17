@@ -1,5 +1,6 @@
 package com.gruszka.airpollutionwebapp.dao;
 
+import com.gruszka.airpollutionwebapp.entity.Index;
 import com.gruszka.airpollutionwebapp.entity.Parameter;
 import com.gruszka.airpollutionwebapp.entity.Sensor;
 import com.gruszka.airpollutionwebapp.entity.Station;
@@ -19,6 +20,7 @@ public interface SensorDao extends JpaRepository<Sensor, Long> {
 
     @Query("SELECT s.parameter FROM Sensor s WHERE s.id = (:id)")
     Optional<Parameter> findParameterBySensorId(@Param("id") Integer id);
+
 
 
 }

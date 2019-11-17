@@ -1,6 +1,7 @@
 package com.gruszka.airpollutionwebapp.service;
 
 import com.gruszka.airpollutionwebapp.dao.PollutionDataDao;
+import com.gruszka.airpollutionwebapp.entity.Index;
 import com.gruszka.airpollutionwebapp.entity.Parameter;
 import com.gruszka.airpollutionwebapp.entity.PollutionData;
 import com.gruszka.airpollutionwebapp.entity.Sensor;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
 
@@ -74,6 +76,18 @@ public class PollutionDataServiceImpl implements PollutionDataService {
             throw new RuntimeException("Did not find Data: " + date + " : " + sensor.getIdApi());
         }
         return pollutionData;
+    }
+
+    @Override
+    public PollutionData findMostRecentIndexFromSensor(Sensor sensor) throws RuntimeException {
+        PollutionData pollutionData = pollutionDataDao.findMostRecentIndexFromSensor(sensor);
+
+        if(pollutionData != null){
+            return pollutionData;
+        } else {
+            throw new RuntimeException("Did not find Index from Sensor: " + sensor.getId() + " : " + sensor.getIdApi());
+        }
+
     }
 
     private int calculatePercentValue(PollutionData pollutionData) throws RuntimeException{

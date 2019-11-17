@@ -1,5 +1,6 @@
 package com.gruszka.airpollutionwebapp.service;
 
+import com.gruszka.airpollutionwebapp.entity.Index;
 import com.gruszka.airpollutionwebapp.entity.Parameter;
 import com.gruszka.airpollutionwebapp.entity.PollutionData;
 import com.gruszka.airpollutionwebapp.entity.Sensor;
@@ -15,6 +16,8 @@ public interface PollutionDataService {
     void saveAll(PollutionDataGIOSModel pollutionDataModel, Sensor sensor);
 
     PollutionData findByDateAndSensorAndParameter(Date date, Sensor sensor, Parameter parameter);
+
+    PollutionData findMostRecentIndexFromSensor(Sensor sensor);
 
 
 

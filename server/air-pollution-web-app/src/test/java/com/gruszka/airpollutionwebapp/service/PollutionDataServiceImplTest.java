@@ -1,8 +1,6 @@
 package com.gruszka.airpollutionwebapp.service;
 
-import com.gruszka.airpollutionwebapp.entity.AirQualityService;
-import com.gruszka.airpollutionwebapp.entity.Sensor;
-import com.gruszka.airpollutionwebapp.entity.Station;
+import com.gruszka.airpollutionwebapp.entity.*;
 import com.gruszka.airpollutionwebapp.gios.GIOSApiMapper;
 import com.gruszka.airpollutionwebapp.gios.model.PollutionDataGIOSModel;
 import org.junit.Test;
@@ -29,7 +27,6 @@ public class PollutionDataServiceImplTest {
 
     @Autowired
     private StationService stationService;
-
     @Autowired
     private GIOSApiMapper giosApiMapper;
 
@@ -46,6 +43,16 @@ public class PollutionDataServiceImplTest {
             e.printStackTrace();
         }
         pollutionDataService.saveAll(pollutionDataModel, sensor);
+    }
+
+    @Test
+    public void findOneInstanceOfAnIndexThatIsMostRecent(){
+
+        Sensor sensor = sensorService.findByIdApiAndStation(225, stationService.findByStationName("Kłodzko - Szkolna"));
+
+        PollutionData pollutionData = pollutionDataService.findMostRecentIndexFromSensor(sensor);
+
+        LOG.info("Got: " + pollutionData.getIndex().getName() + ", date: " + pollutionData.getDate());
     }
 
 

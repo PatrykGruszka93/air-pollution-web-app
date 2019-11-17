@@ -1,5 +1,7 @@
 package com.gruszka.airpollutionwebapp.service;
 
+import com.gruszka.airpollutionwebapp.entity.Index;
+import com.gruszka.airpollutionwebapp.entity.PollutionData;
 import com.gruszka.airpollutionwebapp.entity.Sensor;
 import com.gruszka.airpollutionwebapp.entity.Station;
 import com.gruszka.airpollutionwebapp.gios.GIOSApiMapper;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,6 +28,7 @@ public class MainAppServiceImpl implements MainAppService {
     private SensorService sensorService;
     private StationService stationService;
     private GIOSApiMapper giosApiMapper;
+    private AirQualityIndexService airQualityIndexService;
 
     public static final int REFRESH_RATE = 3000000; //30 min
 
@@ -34,7 +38,8 @@ public class MainAppServiceImpl implements MainAppService {
     public MainAppServiceImpl(AirQualityServiceService airQualityServiceService,
                               CityService cityService, CommuneService communeService,
                               PollutionDataService pollutionDataService, SensorService sensorService,
-                              StationService stationService, GIOSApiMapper giosApiMapper) {
+                              StationService stationService, GIOSApiMapper giosApiMapper,
+                              AirQualityIndexService airQualityIndexService) {
         this.airQualityServiceService = airQualityServiceService;
         this.cityService = cityService;
         this.communeService = communeService;
@@ -42,6 +47,7 @@ public class MainAppServiceImpl implements MainAppService {
         this.sensorService = sensorService;
         this.stationService = stationService;
         this.giosApiMapper = giosApiMapper;
+        this.airQualityIndexService = airQualityIndexService;
     }
 
     @Override
@@ -55,6 +61,7 @@ public class MainAppServiceImpl implements MainAppService {
         getAllStationsFromGIOS();
         getAllSensorsFromGIOS();
         getAllPollutionDataFromGIOS();
+        refreshAirQualityIndicesForGIOSStations();
 
         LOG.info("Getting data from GIOS has been finished " + new Date());
     }
@@ -130,5 +137,56 @@ public class MainAppServiceImpl implements MainAppService {
         for(Sensor failedSensor : failedSensors){
             LOG.log(Level.INFO, "Failed to get data from (Api Id): " + failedSensor.getIdApi());
         }
+    }
+
+    private void refreshAirQualityIndicesForGIOSStations() {
+        LOG.info("Refreshing air quality indices for GIOS Stations");
+        List<Station> stations = stationService.findAllByService(airQualityServiceService.findByName("GIOS"));
+        PollutionData dataWithHighestIndex = null;
+        for(Station station : stations){
+            dataWithHighestIndex = getDataFromMostPollutedAirSensorOfStation(station);
+            airQualityIndexService.saveIndexFromMostPollutedSensor(dataWithHighestIndex);
+        }
+    }
+
+    private PollutionData getDataFromMostPollutedAirSensorOfStation(Station station) {
+
+        PollutionData dataWithHighestIndex = prepareTmpData();
+
+        List<PollutionData> listOfRecentData = getListOfMostRecentDataFromOneStation(station);
+
+        for(PollutionData pollutionData : listOfRecentData){
+            if(pollutionData.getIndex().getId()> dataWithHighestIndex.getIndex().getId()){
+                dataWithHighestIndex = pollutionData;
+            }
+        }
+        return dataWithHighestIndex;
+    }
+
+    private PollutionData prepareTmpData(){
+        PollutionData tmpPollutionData  = new PollutionData();
+        Index tmpIndex = new Index();
+        tmpIndex.setId(0);
+        tmpPollutionData.setIndex(tmpIndex);
+        return tmpPollutionData;
+    }
+
+    private List<PollutionData> getListOfMostRecentDataFromOneStation(Station station) {
+        PollutionData pollutionData;
+        List<PollutionData> allData = new LinkedList<>();
+
+        List<Sensor> sensors = sensorService.findAllByStation(station);
+        for(Sensor sensor : sensors) {
+            try{
+                pollutionData = pollutionDataService.findMostRecentIndexFromSensor(sensor);
+
+            } catch (RuntimeException e){
+                LOG.info(e.getMessage());
+                continue;
+            }
+            allData.add(pollutionData);
+
+        }
+        return allData;
     }
 }

@@ -29,7 +29,7 @@ public class PollutionData {
     @JoinColumn(name = "sensor_parameter_id")
     private Parameter parameter;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="index_id")
     private Index index;
 
