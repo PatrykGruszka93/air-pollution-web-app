@@ -15,18 +15,6 @@ public class StationRestApiModel {
     public StationRestApiModel() {
     }
 
-    public StationRestApiModel(Integer id, Integer idApi, ServiceRestApiModel service, String stationName, Double gegrLat, Double gegrLon, CityRestApiModel city, String streetAddress, AirQualityIndexRestApiModel aqi) {
-        this.id = id;
-        this.idApi = idApi;
-        this.service = service;
-        this.stationName = stationName;
-        this.gegrLat = gegrLat;
-        this.gegrLon = gegrLon;
-        this.city = city;
-        this.streetAddress = streetAddress;
-        this.aqi = aqi;
-    }
-
     public Integer getId() {
         return id;
     }

@@ -1,8 +1,10 @@
 package com.gruszka.airpollutionwebapp.rest.controller;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.gruszka.airpollutionwebapp.entity.AirQualityIndex;
 import com.gruszka.airpollutionwebapp.entity.AirQualityService;
 import com.gruszka.airpollutionwebapp.entity.Station;
+import com.gruszka.airpollutionwebapp.rest.GeoJsonAdapter;
 import com.gruszka.airpollutionwebapp.rest.RestApiModelAdapter;
 import com.gruszka.airpollutionwebapp.rest.model.StationRestApiModel;
 import com.gruszka.airpollutionwebapp.service.AirQualityIndexService;
@@ -20,33 +22,32 @@ import java.util.List;
 @RequestMapping("api/stations")
 public class StationRestController {
 
-
     private StationService stationService;
-
     private AirQualityIndexService aqiService;
-
     private AirQualityServiceService aqsService;
-
     private RestApiModelAdapter restApiModelAdapter;
+    private GeoJsonAdapter geoJsonAdapter;
 
     @Autowired
     public StationRestController(StationService stationService, AirQualityIndexService aqiService,
-                                 AirQualityServiceService aqsService, RestApiModelAdapter restApiModelAdapter) {
+                                 AirQualityServiceService aqsService, RestApiModelAdapter restApiModelAdapter,
+                                 GeoJsonAdapter geoJsonAdapter) {
         this.stationService = stationService;
         this.aqiService = aqiService;
         this.aqsService = aqsService;
         this.restApiModelAdapter = restApiModelAdapter;
+        this.geoJsonAdapter = geoJsonAdapter;
     }
 
-    @GetMapping("")
+    @GetMapping("/json")
     public List<StationRestApiModel> getStations() {
-
 
         AirQualityService aqs = aqsService.findByName("GIOS");
 
         List<StationRestApiModel> stationsModel = new ArrayList<>();
         StationRestApiModel stationModel;
         AirQualityIndex index;
+
         List<Station> stations = stationService.findStationsBasicDetailsByService(aqs);
 
         for(Station station : stations){
@@ -55,15 +56,18 @@ public class StationRestController {
             stationsModel.add(stationModel);
         }
 
-
         return stationsModel;
-
     }
 
+    @GetMapping("/geoJson")
+    public JsonNode getStationsGeoJson(){
+        AirQualityService aqs = aqsService.findByName("GIOS");
+        List<Station> stations = stationService.findStationsBasicDetailsByService(aqs);
 
+        JsonNode json = geoJsonAdapter.getGeoJsonOfStations(stations);
+        return json;
 
-
-
+    }
 
 
 }

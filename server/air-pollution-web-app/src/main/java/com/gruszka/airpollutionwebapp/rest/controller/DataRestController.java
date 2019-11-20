@@ -19,11 +19,9 @@ import java.util.List;
 @RequestMapping("api/data")
 public class DataRestController {
 
-
     private SensorService sensorService;
     private PollutionDataService pollutionDataService;
     private RestApiModelAdapter modelAdapter;
-
 
     @Autowired
     public DataRestController(SensorService sensorService, PollutionDataService pollutionDataService, RestApiModelAdapter modelAdapter) {
@@ -36,9 +34,10 @@ public class DataRestController {
     public List<PollutionDataRestApiModel> getRecentDataFromStation(@PathVariable("stationId") Integer stationId){
 
         List<PollutionDataRestApiModel> dataList = new ArrayList<>();
-        List<Sensor> sensors = sensorService.findAllByStationId(stationId);
         PollutionData pollutionData;
         PollutionDataRestApiModel dataModel;
+
+        List<Sensor> sensors = sensorService.findAllByStationId(stationId);
 
         for(Sensor sensor : sensors){
             pollutionData = pollutionDataService.findMostRecentDataFromSensor(sensor);
@@ -46,7 +45,6 @@ public class DataRestController {
             dataList.add(dataModel);
         }
         return dataList;
-
     }
 
 }

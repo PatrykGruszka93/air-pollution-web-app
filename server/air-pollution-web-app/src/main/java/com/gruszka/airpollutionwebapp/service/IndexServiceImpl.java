@@ -87,14 +87,14 @@ public class IndexServiceImpl implements IndexService {
 
     private Index compareCOWithIndexTable(Double pollutionValue) {
         if (pollutionValue == null || pollutionValue < 0){
-            return findById(7);                         // brak indeksu
+            return findById(7);                            // brak indeksu
         }
-        if (pollutionValue <= 3.0) return findById(1);  // bardzo dobry
-        if (pollutionValue <= 7.0) return findById(2);  // dobry
-        if (pollutionValue <= 11.0) return findById(3); // umikarkowany
-        if (pollutionValue <= 15.0) return findById(4); // dostateczny
-        if (pollutionValue <= 21.0) return findById(5); // zły
-        else return findById(6);                        // bardzo zły
+        if (pollutionValue <= 3000.0) return findById(1);  // bardzo dobry
+        if (pollutionValue <= 7000.0) return findById(2);  // dobry
+        if (pollutionValue <= 11000.0) return findById(3); // umikarkowany
+        if (pollutionValue <= 15000.0) return findById(4); // dostateczny
+        if (pollutionValue <= 21000.0) return findById(5); // zły
+        else return findById(6);                           // bardzo zły
     }
 
     private Index compareNO2WithIndexTable(Double pollutionValue) {

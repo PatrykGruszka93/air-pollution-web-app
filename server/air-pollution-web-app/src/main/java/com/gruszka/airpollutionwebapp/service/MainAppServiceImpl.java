@@ -51,7 +51,7 @@ public class MainAppServiceImpl implements MainAppService {
     }
 
     @Override
-    @Scheduled(fixedRate = REFRESH_RATE)
+    //@Scheduled(fixedRate = REFRESH_RATE)
     public void populateDBFromGIOSData() {
 
         LOG.info("Getting data from GIOS " + new Date());
