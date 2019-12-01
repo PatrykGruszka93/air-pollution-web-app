@@ -26,7 +26,7 @@ public class GeoJsonAdapter {
         this.aqiService = aqiService;
     }
 
-    public JsonNode getGeoJsonOfStations(List<Station> stations){
+    public JsonNode getGeoJsonOfStations(List<Station> stations) {
 
         AirQualityIndex index;
         ObjectMapper mapper = new ObjectMapper();
@@ -36,10 +36,10 @@ public class GeoJsonAdapter {
 
         ArrayNode featuresArray = mapper.createArrayNode();
 
-        for(Station station : stations){
+        for (Station station : stations) {
 
             index = aqiService.findMostCurrentIndexForStation(station);
-            StationRestApiModel stationModel= restApiModelAdapter.getStationRestApiModel(station, index);
+            StationRestApiModel stationModel = restApiModelAdapter.getStationRestApiModel(station, index);
 
             JsonNode geometryNode = getGeometryNode(mapper, stationModel);
             ObjectNode propertiesNode = getPropertiesNode(mapper, stationModel);
@@ -55,7 +55,7 @@ public class GeoJsonAdapter {
 
     private JsonNode getGeometryNode(ObjectMapper mapper, StationRestApiModel stationModel) {
         JsonNode geometryNode = mapper.createObjectNode();
-        ((ObjectNode) geometryNode).put("type","Point");
+        ((ObjectNode) geometryNode).put("type", "Point");
         List<Double> coordinates = new ArrayList<>();
         coordinates.add(stationModel.getGegrLon());
         coordinates.add(stationModel.getGegrLat());
@@ -65,7 +65,26 @@ public class GeoJsonAdapter {
     }
 
     private ObjectNode getPropertiesNode(ObjectMapper mapper, StationRestApiModel stationModel) {
-        return mapper.valueToTree(stationModel);
+
+        String id = stationModel.getId().toString();
+        String stationName = stationModel.getStationName();
+        String service = stationModel.getService().getName();
+        String city = stationModel.getCity().getName();
+        String streetAddress = stationModel.getStreetAddress();
+        String indexId = stationModel.getAqi().getIndex().getId().toString();
+        String indexName = stationModel.getAqi().getIndex().getName();
+
+        ObjectNode propertiesNode = mapper.createObjectNode();
+        propertiesNode.put("id", id);
+        propertiesNode.put("stationName", stationName);
+        propertiesNode.put("service", service);
+        propertiesNode.put("city", city);
+        propertiesNode.put("streetAddress", streetAddress);
+        propertiesNode.put("indexId", indexId);
+        propertiesNode.put("indexName", indexName);
+
+
+        return propertiesNode;
     }
 
     private JsonNode getFeatureNode(ObjectMapper mapper, JsonNode geometryNode, ObjectNode propertiesNode) {

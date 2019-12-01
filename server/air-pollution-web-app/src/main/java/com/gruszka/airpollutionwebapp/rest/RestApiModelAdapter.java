@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class RestApiModelAdapter {
 
-
     public StationRestApiModel getStationRestApiModel(Station station, AirQualityIndex aqi){
         StationRestApiModel model = new StationRestApiModel();
 
