@@ -11,6 +11,6 @@ public interface ParameterDao extends JpaRepository<Parameter, Integer> {
 
     Optional<Parameter> findByParameterName(String parameterName);
 
-
+    Optional<Parameter> findById(Integer id);
 
 }

@@ -19,6 +19,9 @@ public class Index {
     private List<PollutionData> pollutionDataList;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "index")
+    private List<PollutionDataHistory> pollutionDataHistoryList;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "index")
     private List<AirQualityIndex> airQualityIndices;
 
     public Index() {
@@ -46,6 +49,14 @@ public class Index {
 
     public void setPollutionDataList(List<PollutionData> pollutionDataList) {
         this.pollutionDataList = pollutionDataList;
+    }
+
+    public List<PollutionDataHistory> getPollutionDataHistoryList() {
+        return pollutionDataHistoryList;
+    }
+
+    public void setPollutionDataHistoryList(List<PollutionDataHistory> pollutionDataHistoryList) {
+        this.pollutionDataHistoryList = pollutionDataHistoryList;
     }
 
     public List<AirQualityIndex> getAirQualityIndices() {

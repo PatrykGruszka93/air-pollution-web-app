@@ -25,6 +25,7 @@ public class MainAppServiceImpl implements MainAppService {
     private CityService cityService;
     private CommuneService communeService;
     private PollutionDataService pollutionDataService;
+    private PollutionDataHistoryService pollutionDataHistoryService;
     private SensorService sensorService;
     private StationService stationService;
     private GIOSApiMapper giosApiMapper;
@@ -35,15 +36,12 @@ public class MainAppServiceImpl implements MainAppService {
     protected final Logger LOG = Logger.getLogger(getClass().getName());
 
     @Autowired
-    public MainAppServiceImpl(AirQualityServiceService airQualityServiceService,
-                              CityService cityService, CommuneService communeService,
-                              PollutionDataService pollutionDataService, SensorService sensorService,
-                              StationService stationService, GIOSApiMapper giosApiMapper,
-                              AirQualityIndexService airQualityIndexService) {
+    public MainAppServiceImpl(AirQualityServiceService airQualityServiceService, CityService cityService, CommuneService communeService, PollutionDataService pollutionDataService, PollutionDataHistoryService pollutionDataHistoryService, SensorService sensorService, StationService stationService, GIOSApiMapper giosApiMapper, AirQualityIndexService airQualityIndexService) {
         this.airQualityServiceService = airQualityServiceService;
         this.cityService = cityService;
         this.communeService = communeService;
         this.pollutionDataService = pollutionDataService;
+        this.pollutionDataHistoryService = pollutionDataHistoryService;
         this.sensorService = sensorService;
         this.stationService = stationService;
         this.giosApiMapper = giosApiMapper;
@@ -63,8 +61,17 @@ public class MainAppServiceImpl implements MainAppService {
         getAllPollutionDataFromGIOS();
         refreshAirQualityIndicesForGIOSStations();
 
+
         LOG.info("Getting data from GIOS has been finished " + new Date());
     }
+
+    @Override
+    @Scheduled(cron = "0 0 22 * * *")
+    public void transferPollutionDataToHistoryTable() {
+        pollutionDataHistoryService.transferDataIntoDataHistory();
+        pollutionDataService.deleteOldData();
+    }
+
 
     private void getAllCommuneFromGIOS() {
         List<StationGIOSModel> stationList = giosApiMapper.getAllStations();

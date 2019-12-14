@@ -24,7 +24,10 @@ public class Sensor {
     private Parameter parameter;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "sensor")
-    private List<PollutionData> pollutionData;
+    private List<PollutionData> pollutionDataList;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "sensor")
+    private List<PollutionDataHistory> pollutionDataHistoryList;
 
     public Sensor() {
     }
@@ -61,11 +64,19 @@ public class Sensor {
         this.parameter = parameter;
     }
 
-    public List<PollutionData> getPollutionData() {
-        return pollutionData;
+    public List<PollutionData> getPollutionDataList() {
+        return pollutionDataList;
     }
 
-    public void setPollutionData(List<PollutionData> pollutionData) {
-        this.pollutionData = pollutionData;
+    public void setPollutionDataList(List<PollutionData> pollutionDataList) {
+        this.pollutionDataList = pollutionDataList;
+    }
+
+    public List<PollutionDataHistory> getPollutionDataHistoryList() {
+        return pollutionDataHistoryList;
+    }
+
+    public void setPollutionDataHistoryList(List<PollutionDataHistory> pollutionDataHistoryList) {
+        this.pollutionDataHistoryList = pollutionDataHistoryList;
     }
 }

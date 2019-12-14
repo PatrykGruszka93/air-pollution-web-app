@@ -62,4 +62,18 @@ public class ParameterServiceImpl implements ParameterService{
         return parameter;
     }
 
+    @Override
+    public Parameter findById(Integer id) {
+        Optional<Parameter> result = parameterDao.findById(id);
+        Parameter parameter;
+
+        if(result.isPresent()){
+            parameter = result.get();
+        } else {
+            throw new RuntimeException("Did not find Parameter by its id: " + id);
+        }
+
+        return parameter;
+    }
+
 }

@@ -17,6 +17,8 @@ public interface SensorDao extends JpaRepository<Sensor, Long> {
 
     Optional<Sensor> findByIdApiAndStation(int id, Station station);
 
+    Optional<Sensor> findById(Integer id);
+
     List<Sensor> findAllByStation(Station station);
 
     @Query("SELECT s.parameter FROM Sensor s WHERE s.id = (:id)")

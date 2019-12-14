@@ -12,4 +12,6 @@ public interface ParameterService {
 
     Parameter findByParameterName(String parameterName);
 
+    Parameter findById(Integer id);
+
 }

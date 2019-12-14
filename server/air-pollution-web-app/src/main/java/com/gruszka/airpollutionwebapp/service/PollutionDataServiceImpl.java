@@ -1,10 +1,7 @@
 package com.gruszka.airpollutionwebapp.service;
 
 import com.gruszka.airpollutionwebapp.dao.PollutionDataDao;
-import com.gruszka.airpollutionwebapp.entity.Index;
-import com.gruszka.airpollutionwebapp.entity.Parameter;
-import com.gruszka.airpollutionwebapp.entity.PollutionData;
-import com.gruszka.airpollutionwebapp.entity.Sensor;
+import com.gruszka.airpollutionwebapp.entity.*;
 import com.gruszka.airpollutionwebapp.gios.GIOSModelAdapter;
 import com.gruszka.airpollutionwebapp.gios.model.PollutionDataGIOSModel;
 import com.gruszka.airpollutionwebapp.gios.model.PollutionDataValueGIOSModel;
@@ -119,6 +116,18 @@ public class PollutionDataServiceImpl implements PollutionDataService {
             throw new RuntimeException("Did not find Data from Sensor: " + sensor.getId());
         }
         return pollutionData;
+    }
+
+    @Override
+    public List<PollutionDataHistory> findDataForTransferIntoHistoryTable() {
+        List<PollutionDataHistory> pollutionDataList = pollutionDataDao.findDataForTransferIntoHistoryTable();
+        return pollutionDataList;
+    }
+
+    @Override
+    public void deleteOldData() {
+        LOG.info("Deleting old data from data_value");
+        pollutionDataDao.deleteOldData();
     }
 
 }

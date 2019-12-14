@@ -3,6 +3,7 @@ package com.gruszka.airpollutionwebapp.service;
 import com.gruszka.airpollutionwebapp.entity.*;
 import com.gruszka.airpollutionwebapp.gios.GIOSApiMapper;
 import com.gruszka.airpollutionwebapp.gios.model.PollutionDataGIOSModel;
+import org.apache.tomcat.jni.Poll;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,6 +56,18 @@ public class PollutionDataServiceImplTest {
         LOG.info("Got: " + pollutionData.getIndex().getName() + ", date: " + pollutionData.getDate());
     }
 
+
+    @Test
+    public void findDataToTransferIntoHistoryTable(){
+
+        List<PollutionDataHistory> dataList = pollutionDataService.findDataForTransferIntoHistoryTable();
+
+        for(PollutionDataHistory data : dataList){
+            LOG.info("Got data: " + data.getDate() + ", Value: " + data.getValue() + ", Sensor_id: " + data.getSensor().getId());
+        }
+        LOG.info("List length: " + dataList.size());
+
+    }
 
 
 

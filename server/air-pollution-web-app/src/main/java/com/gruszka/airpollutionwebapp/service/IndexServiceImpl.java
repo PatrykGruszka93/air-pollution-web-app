@@ -3,6 +3,7 @@ package com.gruszka.airpollutionwebapp.service;
 import com.gruszka.airpollutionwebapp.dao.IndexDao;
 import com.gruszka.airpollutionwebapp.entity.Index;
 import com.gruszka.airpollutionwebapp.entity.PollutionData;
+import com.gruszka.airpollutionwebapp.entity.PollutionDataHistory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -48,6 +49,22 @@ public class IndexServiceImpl implements IndexService {
 
         Double pollutionValue = pollutionData.getValue();
 
+        switch(pollutionData.getParameter().getParameterFormula()){
+            case "SO2" : return compareSO2WithIndexTable(pollutionValue);
+            case "C6H6" : return compareC6H6WithIndexTable(pollutionValue);
+            case "CO" : return compareCOWithIndexTable(pollutionValue);
+            case "NO2" : return compareNO2WithIndexTable(pollutionValue);
+            case "O3" : return compareO3WithIndexTable(pollutionValue);
+            case "PM2.5" : return comparePM2_5WithIndexTable(pollutionValue);
+            case "PM10" : return comparePM10WithIndexTable(pollutionValue);
+            default : throw new RuntimeException("Wrong parameter formula");
+        }
+    }
+
+    @Override
+    public Index choosePollutionIndexByItsValue(PollutionDataHistory pollutionData) {
+
+        Double pollutionValue = pollutionData.getValue();
         switch(pollutionData.getParameter().getParameterFormula()){
             case "SO2" : return compareSO2WithIndexTable(pollutionValue);
             case "C6H6" : return compareC6H6WithIndexTable(pollutionValue);

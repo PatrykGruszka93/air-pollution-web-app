@@ -14,6 +14,8 @@ public interface SensorService {
 
     void saveAll(List<SensorGIOSModel> sensors);
 
+    Sensor findById(Integer id);
+
     List<Sensor> findAllByStationId(Integer id);
 
     Sensor findByIdApiAndStation(int idApi, Station station);

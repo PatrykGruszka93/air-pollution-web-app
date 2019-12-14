@@ -54,6 +54,20 @@ public class SensorServiceImpl implements SensorService {
     }
 
     @Override
+    public Sensor findById(Integer id) {
+        Optional<Sensor> result = sensorDao.findById(id);
+        Sensor sensor;
+
+        if(result.isPresent()){
+            sensor = result.get();
+        } else {
+            throw new RuntimeException("Did not find Sensor by its Id: " + id);
+        }
+
+        return sensor;
+    }
+
+    @Override
     public List<Sensor> findAllByStationId(Integer id) {
 
         List<Sensor> sensors = sensorDao.findAllByStationId(id);

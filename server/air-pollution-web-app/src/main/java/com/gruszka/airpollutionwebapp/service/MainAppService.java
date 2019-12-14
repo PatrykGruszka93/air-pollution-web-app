@@ -4,5 +4,7 @@ public interface MainAppService {
 
     void populateDBFromGIOSData();
 
+    void transferPollutionDataToHistoryTable();
+
 
 }

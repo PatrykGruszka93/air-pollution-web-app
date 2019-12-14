@@ -38,9 +38,14 @@ public class DataRestController {
         List<Sensor> sensors = sensorService.findAllByStationId(stationId);
 
         for(Sensor sensor : sensors){
-            pollutionData = pollutionDataService.findMostRecentDataFromSensor(sensor);
-            dataModel = modelAdapter.getPollutionDataRestApiModel(pollutionData);
-            dataList.add(dataModel);
+            try{
+                pollutionData = pollutionDataService.findMostRecentDataFromSensor(sensor);
+                dataModel = modelAdapter.getPollutionDataRestApiModel(pollutionData);
+                dataList.add(dataModel);
+            } catch (RuntimeException e){
+                continue;
+            }
+
         }
         return dataList;
     }

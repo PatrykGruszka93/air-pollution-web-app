@@ -1,8 +1,6 @@
 package com.gruszka.airpollutionwebapp.service;
 
-import com.gruszka.airpollutionwebapp.entity.Parameter;
-import com.gruszka.airpollutionwebapp.entity.PollutionData;
-import com.gruszka.airpollutionwebapp.entity.Sensor;
+import com.gruszka.airpollutionwebapp.entity.*;
 import com.gruszka.airpollutionwebapp.gios.model.PollutionDataGIOSModel;
 
 import java.util.Date;
@@ -19,6 +17,10 @@ public interface PollutionDataService {
     PollutionData findMostRecentIndexFromSensor(Sensor sensor);
 
     PollutionData findMostRecentDataFromSensor(Sensor sensor);
+
+    List<PollutionDataHistory> findDataForTransferIntoHistoryTable();
+
+    void deleteOldData();
 
 
 
