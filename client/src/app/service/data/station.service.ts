@@ -10,10 +10,7 @@ export class StationService {
     private http:HttpClient
   ) { }
 
-
-
   getAllStations(){
-    
     return this.http.get('http://localhost:8080/api/stations/geoJson');
   }
 

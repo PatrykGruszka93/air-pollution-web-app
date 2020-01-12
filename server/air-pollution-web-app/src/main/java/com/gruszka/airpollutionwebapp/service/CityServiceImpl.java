@@ -73,4 +73,25 @@ public class CityServiceImpl implements CityService{
 
         return city;
     }
+
+    @Override
+    public City findById(Integer id) {
+        Optional<City> result = cityDao.findById(id);
+        City city;
+
+        if(result.isPresent()){
+            city = result.get();
+        }
+        else {
+            throw new RuntimeException("Did not find City by its ID: " + id);
+        }
+
+        return city;
+    }
+
+    @Override
+    public List<City> findAllOrderByName() {
+        List<City> cities = cityDao.findAllOrderByName();
+        return cities;
+    }
 }

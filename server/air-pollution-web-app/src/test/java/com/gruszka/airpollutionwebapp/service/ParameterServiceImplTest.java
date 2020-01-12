@@ -1,5 +1,6 @@
 package com.gruszka.airpollutionwebapp.service;
 
+import com.gruszka.airpollutionwebapp.entity.Parameter;
 import com.gruszka.airpollutionwebapp.gios.GIOSApiMapper;
 import com.gruszka.airpollutionwebapp.gios.model.ParameterGIOSModel;
 import com.gruszka.airpollutionwebapp.gios.model.SensorGIOSModel;
@@ -28,19 +29,15 @@ public class ParameterServiceImplTest {
 
     protected final Logger LOG = Logger.getLogger(getClass().getName());
 
+
     @Test
-    public void shouldPopulateDatabaseWithParametersFromGIOS(){
-        List<SensorGIOSModel> sensorList = giosApiMapper.getSensorsFromStation(117);
-        ParameterGIOSModel parameterModel;
-        for(SensorGIOSModel sensorModel : sensorList){
-            parameterModel = sensorModel.getParam();
-            parameterService.save(parameterModel);
-            LOG.log(Level.INFO, "Saved: " + parameterModel.getParamName());
+    public void shouldReturnNotNullForFindingParametersByCity(){
+
+        final Integer CITY_ID = 63;
+        List<Parameter> parameterList = parameterService.findDistinctByCityId(CITY_ID);
+
+        for(Parameter parameter : parameterList){
+            LOG.info("Parameter: " + parameter.getParameterName());
         }
-
     }
-
-
-
-
 }

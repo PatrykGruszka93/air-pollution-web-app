@@ -49,6 +49,20 @@ public class PollutionDataHistory {
         this.parameter = parameter;
     }
 
+    public PollutionDataHistory(String date, Double value) {
+        try {
+            this.date = new SimpleDateFormat("yyyy-MM-dd").parse(date);
+        } catch (ParseException e) {
+            this.date = null;
+        }
+        this.value = value;
+    }
+
+    public PollutionDataHistory(Date date, Double value) {
+        this.date = date;
+        this.value = value;
+    }
+
     public Long getId() {
         return id;
     }

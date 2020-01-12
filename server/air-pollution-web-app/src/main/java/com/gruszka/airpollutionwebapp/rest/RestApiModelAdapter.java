@@ -86,6 +86,15 @@ public class RestApiModelAdapter {
         return model;
     }
 
+    public PollutionDataHistoryRestApiModel getPollutionDataHistoryRestApiModel(PollutionDataHistory pollutionDataHistory){
+        PollutionDataHistoryRestApiModel model = new PollutionDataHistoryRestApiModel();
+
+        model.setDate(pollutionDataHistory.getDate());
+        model.setValue(pollutionDataHistory.getValue());
+
+        return model;
+    }
+
     public ParameterRestApiModel getParameterRestApiModel(Parameter parameter){
         ParameterRestApiModel model = new ParameterRestApiModel();
         model.setId(parameter.getId());

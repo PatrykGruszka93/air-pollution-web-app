@@ -8,6 +8,7 @@ import com.gruszka.airpollutionwebapp.gios.model.ParameterGIOSModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -74,6 +75,13 @@ public class ParameterServiceImpl implements ParameterService{
         }
 
         return parameter;
+    }
+
+    @Override
+    public List<Parameter> findDistinctByCityId(Integer cityId) {
+
+        List<Parameter> parameterList = parameterDao.findDistinctByCityId(cityId);
+        return parameterList;
     }
 
 }

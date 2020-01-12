@@ -1,10 +1,13 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import {MapComponent} from './map/map.component';
+import { MapComponent } from './map/map.component';
+import { ChartComponent } from './chart/chart.component';
 
 
 const routes: Routes = [
-  { path:'', component:MapComponent}
+  { path:'', component:MapComponent},
+  { path:'chart', component:ChartComponent}
+ 
 
 ];
 

@@ -52,14 +52,11 @@ public class StationRestController {
 
         List<Station> stations = stationService.findStationsBasicDetailsByService(aqs);
 
-
-
         for(Station station : stations){
             index = aqiService.findMostCurrentIndexForStation(station);
             stationModel = restApiModelAdapter.getStationRestApiModel(station, index);
             stationsModel.add(stationModel);
         }
-
         return stationsModel;
     }
 
@@ -70,8 +67,6 @@ public class StationRestController {
 
         JsonNode json = geoJsonAdapter.getGeoJsonOfStations(stations);
         return json;
-
     }
-
 
 }

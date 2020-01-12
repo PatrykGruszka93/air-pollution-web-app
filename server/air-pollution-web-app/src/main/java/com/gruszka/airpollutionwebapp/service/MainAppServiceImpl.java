@@ -117,7 +117,8 @@ public class MainAppServiceImpl implements MainAppService {
 
         for(Station station : stationList){
             sensorList = giosApiMapper.getSensorsFromStation(station.getIdApi());
-            sensorService.saveAll(sensorList);
+            if (sensorList != null)
+                sensorService.saveAll(sensorList);
         }
     }
 
@@ -152,7 +153,12 @@ public class MainAppServiceImpl implements MainAppService {
         PollutionData dataWithHighestIndex = null;
         for(Station station : stations){
             dataWithHighestIndex = getDataFromMostPollutedAirSensorOfStation(station);
-            airQualityIndexService.saveIndexFromMostPollutedSensor(dataWithHighestIndex);
+            try{
+                airQualityIndexService.saveIndexFromMostPollutedSensor(dataWithHighestIndex);
+            } catch (NullPointerException e){
+                LOG.info("Did not find data for station id: " + station.getId());
+                continue;
+            }
         }
     }
 

@@ -1,6 +1,5 @@
 import { Component, AfterViewInit, ViewChild, ElementRef, Input } from '@angular/core';
 import { StationService } from '../service/data/station.service';
-import { StationDetailsComponent } from '../station-details/station-details.component';
 
 @Component({
   selector: 'app-map',
@@ -11,9 +10,8 @@ export class MapComponent implements AfterViewInit {
   
   public myData: any[];
 
-  @Input()
-  stationDetails : StationDetailsComponent;
-
+  private stationData: any[];
+  private stationPollutionData: any[];
 
   map: google.maps.Map;
   marker: google.maps.Marker;
@@ -327,13 +325,15 @@ export class MapComponent implements AfterViewInit {
     
   }
   setOnStationPollutionDetails(data : any[]){
-    this.stationDetails.setStationDetailsData(data);
+    this.stationPollutionData = data;
     console.log("setOnStationDetails");
   }
 
   setStationData(data : any){
-    this.stationDetails.setStationData(data);
+    this.stationData = data;
   }
+
+  
 
 
  

@@ -19,8 +19,8 @@ public interface StationDao extends JpaRepository<Station, Long> {
     //@Query("SELECT s from Station s JOIN FETCH s.sensors WHERE s.service = (:service)")
     List<Station> findAllByService(@Param("service") AirQualityService service);
 
-    @Query("SELECT s from Station s JOIN FETCH s.city c JOIN FETCH c.commune WHERE s.service = (:service)")
-    List<Station> findStationsBasicDetailsByService1(@Param("service") AirQualityService service);
+//    @Query("SELECT s from Station s JOIN FETCH s.city c JOIN FETCH c.commune WHERE s.service = (:service)")
+//    List<Station> findStationsBasicDetailsByService(@Param("service") AirQualityService service);
 
     @Query(value =
             "SELECT * FROM station st JOIN city c ON st.city_id = c.id WHERE st.id IN(" +

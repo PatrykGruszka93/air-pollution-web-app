@@ -6,17 +6,21 @@ import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MapComponent } from './map/map.component';
-import { StationDetailsComponent } from './station-details/station-details.component';
 import { MenuComponent } from './menu/menu.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { ChartComponent } from './chart/chart.component';
+import { MDBBootstrapModule } from 'angular-bootstrap-md';
+import { LineChartComponent } from './line-chart/line-chart.component';
+import { ChartsModule } from 'ng2-charts';
 
 @NgModule({
   declarations: [
     AppComponent,
     MapComponent,
-    StationDetailsComponent,
-    MenuComponent
+    MenuComponent,
+    ChartComponent,
+    LineChartComponent
   ],
   imports: [
     BrowserModule,
@@ -24,7 +28,9 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     FormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    MDBBootstrapModule.forRoot(),
+    ChartsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -15,6 +15,10 @@ public interface CityService {
 
     City findByName(String name);
 
+    City findById(Integer id);
+
+    List<City> findAllOrderByName();
+
 
 
 }

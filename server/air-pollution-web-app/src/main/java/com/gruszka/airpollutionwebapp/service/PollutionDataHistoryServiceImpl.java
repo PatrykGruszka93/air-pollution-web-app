@@ -5,6 +5,8 @@ import com.gruszka.airpollutionwebapp.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -89,5 +91,30 @@ public class PollutionDataHistoryServiceImpl implements PollutionDataHistoryServ
             throw new RuntimeException("Did not find Data: " + date + " : " + sensor.getIdApi());
         }
         return data;
+    }
+
+    @Override
+    public List<PollutionDataHistory> findAvgDataByCityAndDateAndParameter(City city, Date date, Parameter parameter, String datePattern) {
+        String filterPattern ="";
+
+        filterPattern = datePattern.equals("'%Y-%m'") ? "'%Y-%m-%d'" : "'%Y-%m'";
+
+        List<PollutionDataHistory> dataList =
+                pollutionDataHistoryDao.findAvgDataByCityAndDateAndParameter(city, date, parameter, datePattern, filterPattern);
+        if(datePattern.equals("'%Y'")){
+            for(PollutionDataHistory data : dataList){
+                try {
+                    data.setDate(new SimpleDateFormat("yyyy-MM").parse(data.getDate().toString()));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+
+
+        return dataList;
+
+
     }
 }
